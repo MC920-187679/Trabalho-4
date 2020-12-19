@@ -18,10 +18,10 @@ if __name__ == '__main__':
     texto = decodifica(img, bit=args.bit)
 
     # exibição do resultado
-    if args.output is None:
+    if args.force_show or args.output is None:
         # stdout
         print(texto)
-    else:
+    if args.output is not None:
         # arquivo de saída
         with open(args.output, 'w') as arquivo:
             print(texto, file=arquivo)

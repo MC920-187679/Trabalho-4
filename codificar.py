@@ -21,9 +21,9 @@ if __name__ == '__main__':
     img = codifica(img, texto, bit=args.bit)
 
     # exibição do resultado
-    if args.output is None:
+    if args.force_show or args.output is None:
         # janela
         imgshow(img, arquivo)
-    else:
+    if args.output is not None:
         # arquivo
         imgwrite(img, args.output)
