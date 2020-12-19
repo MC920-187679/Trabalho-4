@@ -1,29 +1,34 @@
 """
 Funções de IO com as imagens.
 """
+from typing import Union
 from tipos import Image
 import numpy as np
 import cv2
 
 
-def imgread(arquivo: str) -> Image:
+def imgread(arquivo: Union[str, bytes]) -> Image:
     """
     Lê um arquivo de imagem em escala de cinza.
 
     Parâmetros
     ----------
-    arquivo: str
-        Caminho para o arquivo de imagem a ser lido.
+    arquivo: str, bytes
+        String com o caminho para o arquivo de imagem a ser lido,
+        ou vetor de bytes com o conteúdo do arquivo.
 
     Retorno
     -------
     img: ndarray
         Matriz representando a imagem lida.
     """
-    # abre o arquivo fora do OpenCV, para que o
-    # Python trate os erros de IO
-    with open(arquivo, mode='rb') as filebuf:
-        buf = np.frombuffer(filebuf.read(), dtype=np.uint8)
+    if isinstance(arquivo, str):
+        # abre o arquivo fora do OpenCV, para que o
+        # Python trate os erros de IO
+        with open(arquivo, mode='rb') as filebuf:
+            arquivo = filebuf.read()
+    # buffer como ndarray
+    buf = np.frombuffer(arquivo, dtype=np.uint8)
 
     # só resta tratar problemas de decodificação
     img: Image = cv2.imdecode(buf, cv2.IMREAD_GRAYSCALE)

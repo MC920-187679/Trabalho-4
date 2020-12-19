@@ -14,7 +14,7 @@ def separa_bits(texto: str) -> Bits:
     # buffer com o tamanho
     tamanho = len(texto_buf).to_bytes(8, 'big')
     # buffer conjunto
-    buffer = np.asarray(tuple(tamanho + texto_buf), dtype=np.uint8)
+    buffer = np.frombuffer(tamanho + texto_buf, dtype=np.uint8)
 
     # matriz com cada bit separado
     buf = np.zeros((8, len(buffer)), dtype=np.uint8)
