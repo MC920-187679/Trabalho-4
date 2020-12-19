@@ -27,7 +27,7 @@ class Argumentos(ArgumentParser):
                         help='plano de bit')
         self.add_argument('-o', '--output', type=str,
                         help=f'saída do resultado (padrão: {saida_padrao})')
-        self.add_argument('-f', '--force-show', action='store_true',
+        self.add_argument('-f', '--force-show', action='store_true', dest='show',
                         help='sempre mostra o resultado final na saída padrão')
 
 def plano_de_bit(bit: str) -> int:
