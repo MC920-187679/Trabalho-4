@@ -17,7 +17,7 @@ def imgread(arquivo: str) -> Image:
 
     Retorno
     -------
-    img: np.ndarray
+    img: ndarray
         Matriz representando a imagem lida.
     """
     # abre o arquivo fora do OpenCV, para que o
@@ -40,7 +40,7 @@ def imgwrite(img: Image, arquivo: str) -> None:
 
     Parâmetros
     ----------
-    img: np.ndarray
+    img: ndarray
         Matriz representando uma imagem.
     arquivo: str
         Caminho para o arquivo onde a imagem será gravada.
@@ -64,7 +64,7 @@ def imgshow(img: Image, nome: str="", delay: int=250) -> None:
 
     Parâmetros
     ----------
-    img: np.ndarray
+    img: ndarray
         Matriz representando uma imagem.
     nome: str, opcional
         Nome da janela a ser aberta.
