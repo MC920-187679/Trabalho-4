@@ -1,7 +1,7 @@
 """
 Tratamento de argumentos da linha de comando.
 """
-from argparse import ArgumentParser, ArgumentTypeError, FileType
+from argparse import ArgumentParser, ArgumentTypeError
 from typing import Tuple
 from .tipos import Image
 from .inout import imgread
@@ -29,14 +29,6 @@ class Argumentos(ArgumentParser):
                         help=f'saída do resultado (padrão: {saida_padrao})')
         self.add_argument('-f', '--force-show', action='store_true',
                         help='sempre mostra o resultado final na saída padrão')
-
-    def add_texto_entrada(self) -> None:
-        """
-        Adiciona texto como entrada opcional.
-        """
-        self.add_argument('texto', metavar='TEXTO', type=FileType('r'), default='-', nargs='?',
-                        help='texto de entrada')
-
 
 def plano_de_bit(bit: str) -> int:
     """

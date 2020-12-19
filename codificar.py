@@ -1,6 +1,7 @@
 """
 Ferramenta de codificação esteganográfica.
 """
+from argparse import FileType
 from lib.args import Argumentos
 from lib.inout import imgshow, imgwrite
 from lib.estega import codifica
@@ -9,7 +10,10 @@ from lib.estega import codifica
 DESCRICAO = 'Ferramenta de codificação para a técnica de estaganografia.'
 # parser de argumentos
 parser = Argumentos(DESCRICAO)
-parser.add_texto_entrada()
+# texto a ser codificado
+parser.add_argument('texto', metavar='TEXTO', type=FileType('r'), default='-', nargs='?',
+                    help='texto de entrada')
+
 
 if __name__ == '__main__':
     args = parser.parse_intermixed_args()
