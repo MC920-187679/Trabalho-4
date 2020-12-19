@@ -52,7 +52,7 @@ def imgwrite(img: Image, arquivo: str) -> None:
         a entrada não representa uma imagem ou não pode ser
         convertido para a extensão eserada.
     """
-    # indica para o caller quando a imagem NÃO for salva
+    # indica quando a imagem NÃO for salva
     if not cv2.imwrite(arquivo, img):
         msg = f'não foi possível salvar a imagem em "{arquivo}"'
         raise ValueError(msg)
