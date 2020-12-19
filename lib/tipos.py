@@ -10,13 +10,22 @@ from numpy import ndarray, uint8
 
 if TYPE_CHECKING:
     # Python 3.8+
-    from typing import Literal, Protocol
+    from typing import Literal
 else:
     from collections import defaultdict
     # Python 3.7-
-    Literal = defaultdict(str)
-    Protocol = object
+    Literal = defaultdict(lambda: 'tipo')
     Image = 'Image' # pylint: disable=invalid-name
+
+
+class Bits(ndarray): # type: ignore
+    """
+    Vetor de bits representando texto.
+    Os 64 bits iniciais são o tamanho do texto.
+    """
+    dtype: Type[uint8] = uint8
+    ndim: Literal[1] = 1
+    shape: Tuple[int]
 
 
 class Image(ndarray): # type: ignore # pylint: disable=function-redefined
