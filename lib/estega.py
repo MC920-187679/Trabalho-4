@@ -1,8 +1,8 @@
 """
 Funções de codificação e decodificação para esteganografia.
 """
-from tipos import Image, Bits
 import numpy as np
+from .tipos import Image, Bits
 
 
 def separa_bits(texto: str) -> Bits:

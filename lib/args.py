@@ -1,13 +1,27 @@
+"""
+Tratamento de argumentos da linha de comando.
+"""
 from argparse import ArgumentParser, ArgumentTypeError, FileType
-from tipos import Image, Literal
-from inout import imgread
+from typing import Tuple
+from .tipos import Image
+from .inout import imgread
 
 
 class Argumentos(ArgumentParser):
-    def __init__(self, descricao: str, saida_padrao: str='nova janela'):
-        super().__init__(description=descricao)
+    """
+    Objeto para tratar opções da linha comando.
 
-        self.add_argument('imagem', type=imagem,
+    Parâmetros
+    ----------
+    descricao: str
+        Descrição da ferramenta.
+    saida_padrao: str, opcional
+        Descrição da saída usada por padrão na ferramenta.
+    """
+    def __init__(self, descricao: str, saida_padrao: str='nova janela'):
+        super().__init__(allow_abbrev=False, description=descricao)
+
+        self.add_argument('imagem', metavar='IMAGEM', type=imagem,
                         help='imagem de entrada')
         self.add_argument('-b', '--bit', type=plano_de_bit, default=0,
                         help='plano de bit')
@@ -17,11 +31,17 @@ class Argumentos(ArgumentParser):
                         help='sempre mostra o resultado final na saída padrão')
 
     def add_texto_entrada(self) -> None:
-        self.add_argument('texto', type=FileType('r'),
+        """
+        Adiciona texto como entrada opcional.
+        """
+        self.add_argument('texto', metavar='TEXTO', type=FileType('r'), default='-', nargs='?',
                         help='texto de entrada')
 
 
 def plano_de_bit(bit: str) -> int:
+    """
+    Leitura de argumento de plano de bit válido (0-7).
+    """
     try:
         num = int(bit, base=10)
         if num < 0 or num >= 8:
@@ -32,9 +52,13 @@ def plano_de_bit(bit: str) -> int:
         raise ArgumentTypeError(f'número inválido: {bit}') from err
 
 
-def imagem(arquivo: str) -> Image:
+def imagem(arquivo: str) -> Tuple[Image, str]:
+    """
+    Leitura e decodificação de imagem.
+    """
     try:
-        return imgread(FileType('rb')(arquivo))
-    except ValueError as err:
-        msg = f"problema de leitura da imagem '{arquivo}'"
+        img = imgread(arquivo)
+        return img, arquivo
+    except (OSError, ValueError) as err:
+        msg = f"{err}"
         raise ArgumentTypeError(msg) from err

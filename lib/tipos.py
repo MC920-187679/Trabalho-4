@@ -1,7 +1,6 @@
 """
 Procolos para tipagem estática com ``mypy``.
 """
-# from __future__ import annotations
 from typing import (
     TYPE_CHECKING, overload,
     Type, Union, Tuple
