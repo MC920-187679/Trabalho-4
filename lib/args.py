@@ -2,7 +2,7 @@
 Tratamento de argumentos da linha de comando.
 """
 from argparse import ArgumentParser, ArgumentTypeError
-from typing import Tuple, Optional
+from typing import Tuple
 from .tipos import Image
 from .inout import imgread
 
