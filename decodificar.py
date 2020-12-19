@@ -5,7 +5,7 @@ from lib.args import Argumentos
 from lib.estega import decodifica
 
 
-DESCRICAO = 'Ferramenta de codificação para a técnica de estaganografia.'
+DESCRICAO = 'Ferramenta de decodificação de texto em imagem.'
 # parser de argumentos
 parser = Argumentos(DESCRICAO, saida_padrao='stdout')
 
