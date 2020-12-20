@@ -1,15 +1,17 @@
 """
-Ferramenta de decodificação do texto codificado por 'codificar.py'.
+Ferramenta de decodificação do arquivo codificado por 'codificar.py'.
 """
-from sys import stdout
+from argparse import FileType
 from lib.args import Argumentos
 from lib.estega import decodifica
 
 
-DESCRICAO = 'Ferramenta de decodificação de texto em imagem.'
+DESCRICAO = 'Ferramenta de decodificação de arquivo em imagem.'
 # parser de argumentos
 parser = Argumentos(DESCRICAO)
-parser.add_argument('-n', dest='end', action='store_const', const='\n', default='',
+parser.add_argument('saida', metavar='SAIDA', type=FileType('wb'),
+                    help='arquivo para armazenar resultado')
+parser.add_argument('-n', dest='end', action='store_const', const=b'\n', default=b'',
                     help='imprime nova linha')
 
 if __name__ == '__main__':
@@ -21,12 +23,5 @@ if __name__ == '__main__':
     texto = decodifica(img, bit=args.bit)
 
     # exibição do resultado
-    if args.show or args.output is None:
-        # stdout
-        stdout.write(texto)
-        stdout.write(args.end)
-    if args.output is not None:
-        # arquivo de saída
-        with open(args.output, 'w') as arquivo:
-            arquivo.write(texto)
-            arquivo.write(args.end)
+    args.saida.write(texto)
+    args.saida.write(args.end)
