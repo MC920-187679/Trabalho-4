@@ -24,4 +24,4 @@ if __name__ == '__main__':
     img = codifica(img, texto, bit=args.bit)
 
     # exibição do resultado
-    args.output(img, arquivo)
+    args.saida(img, arquivo)

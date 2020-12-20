@@ -31,7 +31,7 @@ class Argumentos(ArgumentParser):
         """
         Opção para saída de imagens.
         """
-        self.add_argument('-o', '--output', type=imagem_saida, default=imgshow,
+        self.add_argument('-o', '--output', dest='saida', type=imagem_saida, default=imgshow,
                         help='salva resultado em arquivo (padrão: exibe em janela)')
 
 

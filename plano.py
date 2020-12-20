@@ -78,4 +78,4 @@ if __name__ == '__main__':
             img[..., args.cor] = 255
 
     # exibição do resultado
-    args.output(img, arquivo)
+    args.saida(img, arquivo)
