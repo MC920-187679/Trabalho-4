@@ -8,6 +8,7 @@ from lib.estega import decodifica
 DESCRICAO = 'Ferramenta de decodificação de arquivo em imagem.'
 # parser de argumentos
 parser = Argumentos(DESCRICAO)
+# opções de saída
 parser.add_argument('saida', metavar='SAIDA', type=arquivo_saida,
                     help='arquivo para armazenar resultado')
 parser.add_argument('-n', dest='end', action='store_const', const=b'\n', default=b'',
