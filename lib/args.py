@@ -2,9 +2,9 @@
 Tratamento de argumentos da linha de comando.
 """
 from argparse import ArgumentParser, ArgumentTypeError
-from typing import Tuple
+from typing import Tuple, Callable
 from .tipos import Image
-from .inout import imgread
+from .inout import imgread, imgwrite, imgshow
 
 
 class Argumentos(ArgumentParser):
@@ -18,17 +18,20 @@ class Argumentos(ArgumentParser):
     saida_padrao: str, opcional
         Descrição da saída usada por padrão na ferramenta.
     """
-    def __init__(self, descricao: str, saida_padrao: str='nova janela'):
+    def __init__(self, descricao: str):
         super().__init__(allow_abbrev=False, description=descricao)
 
-        self.add_argument('imagem', metavar='IMAGEM', type=imagem,
+        self.add_argument('imagem', metavar='IMAGEM', type=imagem_entrada,
                         help='imagem de entrada')
         self.add_argument('-b', '--bit', type=plano_de_bit, default=0,
                         help='plano de bit')
-        self.add_argument('-o', '--output', type=str,
-                        help=f'saída do resultado (padrão: {saida_padrao})')
-        self.add_argument('-f', '--force-show', action='store_true', dest='show',
-                        help='sempre mostra o resultado final na saída padrão')
+
+    def add_saida_imagem(self) -> None:
+        """
+        Opção para saída de imagens.
+        """
+        self.add_argument('-o', '--output', type=imagem_saida, default=imgshow,
+                        help='salva resultado em arquivo (padrão: exibe em janela)')
 
 
 def plano_de_bit(bit: str) -> int:
@@ -45,7 +48,7 @@ def plano_de_bit(bit: str) -> int:
         raise ArgumentTypeError(f'número inválido: {bit}') from err
 
 
-def imagem(arquivo: str) -> Tuple[Image, str]:
+def imagem_entrada(arquivo: str) -> Tuple[Image, str]:
     """
     Leitura e decodificação de imagem.
     """
@@ -55,3 +58,13 @@ def imagem(arquivo: str) -> Tuple[Image, str]:
     except (OSError, ValueError) as err:
         msg = f"{err}"
         raise ArgumentTypeError(msg) from err
+
+
+def imagem_saida(arquivo: str) -> Callable[[Image, str], None]:
+    """
+    Retorna função para codificação e escrita de imagem.
+    """
+    def saida(img: Image, _entrada: str) -> None:
+        imgwrite(img, arquivo)
+
+    return saida

@@ -10,6 +10,7 @@ from lib.estega import codifica
 DESCRICAO = 'Ferramenta de codificação para a técnica de estaganografia.'
 # parser de argumentos
 parser = Argumentos(DESCRICAO)
+parser.add_saida_imagem()
 # arquivo a ser codificado
 parser.add_argument('arquivo', metavar='ARQUIVO', type=FileType('rb'), default='-', nargs='?',
                     help='arquivo de entrada')
@@ -25,9 +26,4 @@ if __name__ == '__main__':
     img = codifica(img, texto, bit=args.bit)
 
     # exibição do resultado
-    if args.show or args.output is None:
-        # janela
-        imgshow(img, arquivo)
-    if args.output is not None:
-        # arquivo
-        imgwrite(img, args.output)
+    args.output(img, arquivo)

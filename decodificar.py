@@ -8,7 +8,7 @@ from lib.estega import decodifica
 
 DESCRICAO = 'Ferramenta de decodificação de texto em imagem.'
 # parser de argumentos
-parser = Argumentos(DESCRICAO, saida_padrao='stdout')
+parser = Argumentos(DESCRICAO)
 parser.add_argument('-n', dest='end', action='store_const', const='\n', default='',
                     help='imprime nova linha')
 

@@ -33,6 +33,8 @@ class Cor(IntEnum):
 
 # parser de argumentos
 parser = Argumentos('Ferramenta de extração do plano de bit.')
+# opções de saída
+parser.add_saida_imagem()
 parser.add_argument('-i', '--inverte', action='store_true',
                     help='inverte resultado')
 # opções de extração de canal de cores
@@ -77,9 +79,4 @@ if __name__ == '__main__':
             img[..., args.cor] = 255
 
     # exibição do resultado
-    if args.show or args.output is None:
-        # janela
-        imgshow(img, arquivo)
-    if args.output is not None:
-        # arquivo
-        imgwrite(img, args.output)
+    args.output(img, arquivo)
