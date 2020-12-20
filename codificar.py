@@ -2,7 +2,7 @@
 Ferramenta de codificação esteganográfica.
 """
 from lib.args import Argumentos, arquivo_entrada
-from lib.estega import codifica
+from lib.estego import codifica
 
 
 DESCRICAO = 'Ferramenta de codificação para a técnica de estaganografia.'

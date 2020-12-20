@@ -2,7 +2,7 @@
 Ferramenta de decodificação do arquivo codificado por 'codificar.py'.
 """
 from lib.args import Argumentos, arquivo_saida
-from lib.estega import decodifica
+from lib.estego import decodifica
 
 
 DESCRICAO = 'Ferramenta de decodificação de arquivo em imagem.'
