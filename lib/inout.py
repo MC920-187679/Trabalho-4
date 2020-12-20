@@ -1,6 +1,6 @@
 """
 Funções de IO com as imagens.
-"""s
+"""
 import numpy as np
 import cv2
 from .tipos import Image
