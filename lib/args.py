@@ -16,8 +16,6 @@ class Argumentos(ArgumentParser):
     ----------
     descricao: str
         Descrição da ferramenta.
-    saida_padrao: str, opcional
-        Descrição da saída usada por padrão na ferramenta.
     """
     def __init__(self, descricao: str):
         super().__init__(allow_abbrev=False, description=descricao)
