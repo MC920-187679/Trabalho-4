@@ -1,8 +1,7 @@
 """
 Ferramenta de codificação esteganográfica.
 """
-from argparse import FileType
-from lib.args import Argumentos
+from lib.args import Argumentos, arquivo_entrada
 from lib.estega import codifica
 
 
@@ -11,7 +10,7 @@ DESCRICAO = 'Ferramenta de codificação para a técnica de estaganografia.'
 parser = Argumentos(DESCRICAO)
 parser.add_saida_imagem()
 # arquivo a ser codificado
-parser.add_argument('arquivo', metavar='ARQUIVO', type=FileType('rb'), default='-', nargs='?',
+parser.add_argument('arquivo', metavar='ARQUIVO', type=arquivo_entrada, default='-', nargs='?',
                     help='arquivo de entrada')
 
 

@@ -1,8 +1,9 @@
 """
 Tratamento de argumentos da linha de comando.
 """
-from argparse import ArgumentParser, ArgumentTypeError
-from typing import Tuple, Callable
+from sys import stdin, stdout
+from argparse import ArgumentParser, ArgumentTypeError, FileType
+from typing import Tuple, Callable, BinaryIO
 from .tipos import Image
 from .inout import imgread, imgwrite, imgshow
 
@@ -59,7 +60,6 @@ def imagem_entrada(arquivo: str) -> Tuple[Image, str]:
         msg = f"{err}"
         raise ArgumentTypeError(msg) from err
 
-
 def imagem_saida(arquivo: str) -> Callable[[Image, str], None]:
     """
     Retorna função para codificação e escrita de imagem.
@@ -68,3 +68,22 @@ def imagem_saida(arquivo: str) -> Callable[[Image, str], None]:
         imgwrite(img, arquivo)
 
     return saida
+
+
+def arquivo_entrada(arquivo: str) -> BinaryIO:
+    """
+    Abre arquivo binário para leitura.
+    """
+    if arquivo == '-':
+        return stdin.buffer
+    else:
+        return FileType('rb')(arquivo)
+
+def arquivo_saida(arquivo: str) -> BinaryIO:
+    """
+    Abre arquivo binário para escrita.
+    """
+    if arquivo == '-':
+        return stdout.buffer
+    else:
+        return FileType('wb')(arquivo)
