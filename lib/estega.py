@@ -53,13 +53,13 @@ def codifica(img: Image, texto: str, bit: int=0) -> Image:
         raise OverflowError(f'{descr}, texto tem {tam // 8} bytes')
 
     # nova ordem, escrevendo em uma cor pr vez
-    img = np.transpose(img, (2, 0, 1)).copy()
+    img = np.copy(img, order='C')
     # escrita do texto
     mascara = ~(np.ones(tam, dtype=np.uint8) << bit)
-    img.flat[:tam] = (img.flat[:tam] & mascara) | (buffer << bit)
+    img.flat[:tam] = (img.flat[:tam] & mascara) | (buffer << bit) # pylint: disable=E1137
 
     # volta para a ordem H W D
-    return np.transpose(img, (1, 2, 0))
+    return img
 
 
 def junta_bits(bits: Bits) -> bytes:
@@ -91,7 +91,7 @@ def decodifica(img: Image, bit: int=0) -> str:
         Texto recuperado.
     """
     # vetor de bits com o texto da imagem
-    buffer = ((img.transpose((2, 0, 1)) >> bit) & 1).flat
+    buffer = ((img >> bit) & 1).flat
 
     # recupera o tamanho do texto
     tamanho = int.from_bytes(junta_bits(buffer[:64]), 'big')
