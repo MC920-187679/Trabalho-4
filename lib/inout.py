@@ -1,6 +1,6 @@
 """
 Funções de IO com as imagens.
-"""
+"""s
 import numpy as np
 import cv2
 from .tipos import Image
@@ -19,6 +19,13 @@ def imgread(arquivo: str) -> Image:
     -------
     img: ndarray
         Matriz representando a imagem lida.
+
+    Erro
+    ----
+    OSError
+        Arquivo não pode ser lido ou não existe.
+    ValueError
+        Arquivo não pode ser decodificado como imagem.
     """
     # abre o arquivo fora do OpenCV, para que o
     # Python trate os erros de IO
@@ -48,11 +55,9 @@ def imgwrite(img: Image, arquivo: str) -> None:
     Erro
     ----
     ValueError
-        Quando a imagem não pode ser salva no arquivo ou quando
-        a entrada não representa uma imagem ou não pode ser
-        convertido para a extensão eserada.
+        A images não pode ser salva no arquivo ou a entrada não
+        representa uma imagem.
     """
-    # indica quando a imagem NÃO for salva
     if not cv2.imwrite(arquivo, img):
         msg = f'não foi possível salvar a imagem em "{arquivo}"'
         raise ValueError(msg)

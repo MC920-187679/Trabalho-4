@@ -4,7 +4,6 @@ Ferramenta de extração do plano de bit.
 from argparse import ArgumentTypeError
 from enum import IntEnum, unique
 from lib.args import Argumentos
-from lib.inout import imgshow, imgwrite
 
 
 @unique

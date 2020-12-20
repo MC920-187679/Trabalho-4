@@ -3,7 +3,6 @@ Ferramenta de codificação esteganográfica.
 """
 from argparse import FileType
 from lib.args import Argumentos
-from lib.inout import imgshow, imgwrite
 from lib.estega import codifica
 
 
