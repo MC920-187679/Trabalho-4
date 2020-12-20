@@ -23,7 +23,7 @@ class Cor(IntEnum):
         """
         try:
             return cls[cor]
-        except ValueError as err:
+        except KeyError as err:
             msg = 'canal de cor inválido'
             raise ArgumentTypeError(msg) from err
 
