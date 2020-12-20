@@ -79,11 +79,17 @@ def arquivo_entrada(arquivo: str) -> BinaryIO:
     else:
         return FileType('rb')(arquivo)
 
-def arquivo_saida(arquivo: str) -> BinaryIO:
+def arquivo_saida(arquivo: str) -> Callable[..., None]:
     """
-    Abre arquivo binário para escrita.
+    Retorna função de escrita em arquivo binário.
     """
-    if arquivo == '-':
-        return stdout.buffer
-    else:
-        return FileType('wb')(arquivo)
+    def escreve(*texto: bytes) -> None:
+        if arquivo == '-':
+            for buf in texto:
+                stdout.buffer.write(buf)
+        else:
+            with open(arquivo, 'wb') as file:
+                for buf in texto:
+                    file.write(buf)
+
+    return escreve

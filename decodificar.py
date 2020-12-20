@@ -22,5 +22,4 @@ if __name__ == '__main__':
     texto = decodifica(img, bit=args.bit)
 
     # exibição do resultado
-    args.saida.write(texto)
-    args.saida.write(args.end)
+    args.saida(texto, args.end)
