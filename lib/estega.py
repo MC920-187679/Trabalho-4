@@ -5,16 +5,14 @@ import numpy as np
 from .tipos import Image, Bits
 
 
-def separa_bits(texto: str) -> Bits:
+def separa_bits(texto: bytes) -> Bits:
     """
-    Separa uma string em um vetor de bits, codificado em 'utf8'.
+    Separa um string de bytes em um vetor de bits.
     """
-    # buffer de bytes com o texto
-    texto_buf =  texto.encode('utf8')
     # buffer com o tamanho
-    tamanho = len(texto_buf).to_bytes(8, 'big')
+    tamanho = len(texto).to_bytes(8, 'big')
     # buffer conjunto
-    buffer = np.frombuffer(tamanho + texto_buf, dtype=np.uint8)
+    buffer = np.frombuffer(tamanho + texto, dtype=np.uint8)
 
     # matriz com cada bit separado
     buf = np.zeros((8, len(buffer)), dtype=np.uint8)
@@ -25,21 +23,23 @@ def separa_bits(texto: str) -> Bits:
     # vetor de bits
     return buf.T.ravel()
 
-def codifica(img: Image, texto: str, bit: int=0) -> Image:
+def codifica(img: Image, texto: bytes, bit: int=0) -> Image:
     """
-    Codifica texto dentro da imagem, no plano de bits especificado.
+    Codifica arquivo dentro da imagem, no plano de bits especificado.
 
     Parâmetros
     ----------
     img: ndarray
-        Imagem onde texto será armazenado.
+        Imagem onde arquivo será armazenado.
+    texto: bytes
+        Vetor de bytes do arquivo.
     bit: int, opcional
-        Plano de bit onde o texto será armazenado. (padrão = 0)
+        Plano do bit de armazenamento. (padrão = 0)
 
     Retorno
     -------
     out: ndarray
-        Imagem com texto codificado.
+        Imagem com arquivo codificado.
     """
     # vetor de bits do texto
     buffer = separa_bits(texto)
@@ -52,13 +52,10 @@ def codifica(img: Image, texto: str, bit: int=0) -> Image:
         descr = f'imagem {imgh}x{imgw} consegue armazenar no máximo {limite} bytes'
         raise OverflowError(f'{descr}, texto tem {tam // 8} bytes')
 
-    # nova ordem, escrevendo em uma cor pr vez
-    img = np.copy(img, order='C')
     # escrita do texto
     mascara = ~(np.ones(tam, dtype=np.uint8) << bit)
     img.flat[:tam] = (img.flat[:tam] & mascara) | (buffer << bit) # pylint: disable=E1137
 
-    # volta para a ordem H W D
     return img
 
 
@@ -75,20 +72,20 @@ def junta_bits(bits: Bits) -> bytes:
 
     return bytes(buf)
 
-def decodifica(img: Image, bit: int=0) -> str:
+def decodifica(img: Image, bit: int=0) -> bytes:
     """
 
     Parâmetros
     ----------
     img: ndarray
-        Imagem onde texto foi armazenado.
+        Imagem onde arquivo foi armazenado.
     bit: int, opcional
-        Plano de bit onde o texto foi armazenado. (padrão = 0)
+        Plano do bit de armazenamento. (padrão = 0)
 
     Retorno
     -------
-    texto: str
-        Texto recuperado.
+    texto: bytes
+        Arquivo recuperado.
     """
     # vetor de bits com o texto da imagem
     buffer = ((img >> bit) & 1).flat
@@ -96,7 +93,4 @@ def decodifica(img: Image, bit: int=0) -> str:
     # recupera o tamanho do texto
     tamanho = int.from_bytes(junta_bits(buffer[:64]), 'big')
     # e o texto
-    buf = junta_bits(buffer[64:][:tamanho * 8])
-
-    # codificação em string
-    return str(buf, encoding='utf8')
+    return junta_bits(buffer[64:][:tamanho * 8])

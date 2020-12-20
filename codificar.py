@@ -10,16 +10,16 @@ from lib.estega import codifica
 DESCRICAO = 'Ferramenta de codificação para a técnica de estaganografia.'
 # parser de argumentos
 parser = Argumentos(DESCRICAO)
-# texto a ser codificado
-parser.add_argument('texto', metavar='TEXTO', type=FileType('r'), default='-', nargs='?',
-                    help='texto de entrada')
+# arquivo a ser codificado
+parser.add_argument('arquivo', metavar='ARQUIVO', type=FileType('rb'), default='-', nargs='?',
+                    help='arquivo de entrada')
 
 
 if __name__ == '__main__':
     args = parser.parse_intermixed_args()
     # argumentos da cli
     img, arquivo = args.imagem
-    texto = args.texto.read()
+    texto = args.arquivo.read()
 
     # codificação
     img = codifica(img, texto, bit=args.bit)
