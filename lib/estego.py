@@ -1,7 +1,7 @@
 """
 Funções de codificação e decodificação para esteganografia.
 """
-from typing import Optional, Tuple
+from typing import Optional
 import numpy as np
 from .tipos import Image, Bits
 
@@ -76,8 +76,8 @@ def codifica(img: Image, texto: bytes, bit: Optional[int]=None) -> Image:
         buffer = codifica_em_bit(img, buffer, bit)
     else:
         # escreve em todos os bits, começando do menos significativo
-        for b in range(8):
-            buffer = codifica_em_bit(img, buffer, b)
+        for i in range(8):
+            buffer = codifica_em_bit(img, buffer, i)
             # encerra quando o buffer acaba
             if buffer is None:
                 break
@@ -99,9 +99,9 @@ def junta_bits(bits: Bits) -> bytes:
     bit = np.reshape(bits, (-1, 8)).T
     # buffer com o resultado
     buf = np.zeros_like(bit[0])
-    for b in range(8):
+    for i in range(8):
         # junta bit a bit
-        buf |= bit[b] << b
+        buf |= bit[i] << i
 
     return bytes(buf)
 
