@@ -28,27 +28,6 @@ def separa_bits(texto: bytes) -> Bits:
     return buf.T.ravel()
 
 
-def codifica_em_bit(img: Image, buffer: Bits, bit: int) -> Optional[Bits]:
-    """
-    Codifica parte do buffer em um plano de bit, retornando o buffer restante.
-    """
-    # buffer cabe no plano
-    if len(buffer) <= img.size:
-        tam = len(buffer)
-        # sem resto
-        resto = None
-    # senão, armazena parte do buffer
-    else:
-        tam = img.size
-        buffer, resto = buffer[:tam], buffer[tam:]
-
-    # armazenamento na imagem
-    mascara = ~(np.ones(tam, dtype=np.uint8) << bit)
-    img.flat[:tam] = (img.flat[:tam] & mascara) | (buffer << bit) # pylint: disable=E1137
-
-    return resto
-
-
 def codifica(img: Image, texto: bytes, bit: int=0) -> Image:
     """
     Codifica arquivo dentro da imagem, no plano de bits especificado.
@@ -67,15 +46,16 @@ def codifica(img: Image, texto: bytes, bit: int=0) -> Image:
     out: ndarray
         Imagem com arquivo codificado.
     """
-    # vetor de bits do texto
+    # vetor de bits do arquivo
     buffer = separa_bits(texto)
-
-    # escrita do arquivo
-    buffer = codifica_em_bit(img, buffer, bit)
-
-    # buffer maior que capacidade, sobrou uma parte
-    if buffer is not None:
+    # checa capacidade
+    tam = len(buffer)
+    if tam > img.size:
         raise OverflowError('arquivo muito grande para a imagem')
+
+    # armazenamento no plano de bit
+    mascara = ~(np.ones(tam, dtype=np.uint8) << bit)
+    img.flat[:tam] = (img.flat[:tam] & mascara) | (buffer << bit) # pylint: disable=E1137
 
     return img
 
