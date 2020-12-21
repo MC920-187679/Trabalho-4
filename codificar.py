@@ -8,6 +8,7 @@ from lib.estego import codifica
 DESCRICAO = 'Ferramenta de codificação para a técnica de estaganografia.'
 # parser de argumentos
 parser = Argumentos(DESCRICAO)
+parser.add_plano_de_bit()
 parser.add_saida_imagem()
 # arquivo a ser codificado
 parser.add_argument('arquivo', metavar='ARQUIVO', type=arquivo_entrada, default='-', nargs='?',

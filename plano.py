@@ -32,6 +32,7 @@ class Cor(IntEnum):
 
 # parser de argumentos
 parser = Argumentos('Ferramenta de extração do plano de bit.')
+parser.add_plano_de_bit(padrao=0)
 # opções de saída
 parser.add_saida_imagem()
 parser.add_argument('-i', '--inverte', action='store_true',

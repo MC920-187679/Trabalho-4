@@ -8,6 +8,7 @@ from lib.estego import decodifica
 DESCRICAO = 'Ferramenta de decodificação de arquivo em imagem.'
 # parser de argumentos
 parser = Argumentos(DESCRICAO)
+parser.add_plano_de_bit()
 # opções de saída
 parser.add_argument('saida', metavar='SAIDA', type=arquivo_saida,
                     help='arquivo para armazenar resultado')

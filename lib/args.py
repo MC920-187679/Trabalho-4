@@ -3,7 +3,7 @@ Tratamento de argumentos da linha de comando.
 """
 from sys import stdin, stdout
 from argparse import ArgumentParser, ArgumentTypeError, FileType
-from typing import Tuple, Callable, BinaryIO
+from typing import Tuple, Callable, BinaryIO, Optional
 from .tipos import Image
 from .inout import imgread, imgwrite, imgshow
 
@@ -17,13 +17,22 @@ class Argumentos(ArgumentParser):
     descricao: str
         Descrição da ferramenta.
     """
-    def __init__(self, descricao: str):
+    def __init__(self, descricao: str, ):
         super().__init__(allow_abbrev=False, description=descricao)
 
         self.add_argument('imagem', metavar='IMAGEM', type=imagem_entrada,
                         help='imagem de entrada')
-        self.add_argument('-b', '--bit', type=plano_de_bit, default=0,
+        self.add_argument('-b', '--bit', type=plano_de_bit, default=None,
                         help='plano de bit')
+
+    def add_plano_de_bit(self, padrao: Optional[int]=None) -> None:
+        """
+        Opção para plano de bits.
+        """
+        texto_padrao = str(padrao) if padrao is not None else 'todos os bits'
+
+        self.add_argument('-b', '--bit', type=plano_de_bit, default=padrao,
+                        help=f'plano de bit (padrão: {texto_padrao})')
 
     def add_saida_imagem(self) -> None:
         """
