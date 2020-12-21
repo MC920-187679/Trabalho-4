@@ -49,7 +49,7 @@ def codifica_em_bit(img: Image, buffer: Bits, bit: int) -> Optional[Bits]:
     return resto
 
 
-def codifica(img: Image, texto: bytes, bit: Optional[int]=None) -> Image:
+def codifica(img: Image, texto: bytes, bit: int=0) -> Image:
     """
     Codifica arquivo dentro da imagem, no plano de bits especificado.
 
@@ -60,8 +60,7 @@ def codifica(img: Image, texto: bytes, bit: Optional[int]=None) -> Image:
     texto: bytes
         Vetor de bytes do arquivo.
     bit: int, opcional
-        Plano do bit de armazenamento.
-        Padrão é todos, começando do menos significativo.
+        Plano do bit de armazenamento. (padrão = 0)
 
     Retorno
     -------
@@ -72,15 +71,7 @@ def codifica(img: Image, texto: bytes, bit: Optional[int]=None) -> Image:
     buffer = separa_bits(texto)
 
     # escrita do arquivo
-    if bit is not None:
-        buffer = codifica_em_bit(img, buffer, bit)
-    else:
-        # escreve em todos os bits, começando do menos significativo
-        for i in range(8):
-            buffer = codifica_em_bit(img, buffer, i)
-            # encerra quando o buffer acaba
-            if buffer is None:
-                break
+    buffer = codifica_em_bit(img, buffer, bit)
 
     # buffer maior que capacidade, sobrou uma parte
     if buffer is not None:
@@ -105,12 +96,6 @@ def junta_bits(bits: Bits) -> bytes:
 
     return bytes(buf)
 
-def plano_bit(img: Image, bit: int) -> Bits:
-    """
-    Acessa um plano de bit da imagem.
-    """
-    return ((img >> bit) & 1).ravel('C')
-
 
 def decodifica(img: Image, bit: int=0) -> bytes:
     """
@@ -121,21 +106,15 @@ def decodifica(img: Image, bit: int=0) -> bytes:
     img: ndarray
         Imagem onde arquivo foi armazenado.
     bit: int, opcional
-        Plano do bit de armazenamento.
-        Padrão é todos, começando do menos significativo.
+        Plano do bit de armazenamento. (padrão = 0)
 
     Retorno
     -------
     texto: bytes
         Arquivo recuperado.
     """
-    if bit is not None:
-        # buffer é apenas um plano
-        buffer = plano_bit(img, bit)
-    else:
-        # buffer são todos os planos
-        bits = [plano_bit(img, b) for b in range(8)]
-        buffer = np.concatenate(bits)
+    # buffer com o plano de bit
+    buffer = ((img >> bit) & 1).ravel('C')
 
     # recupera o tamanho do texto
     tamanho = int.from_bytes(junta_bits(buffer[:64]), 'big')

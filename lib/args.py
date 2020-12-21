@@ -23,14 +23,12 @@ class Argumentos(ArgumentParser):
         self.add_argument('imagem', metavar='IMAGEM', type=imagem_entrada,
                         help='imagem de entrada')
 
-    def add_plano_de_bit(self, padrao: Optional[int]=None) -> None:
+    def add_plano_de_bit(self) -> None:
         """
         Opção para plano de bits.
         """
-        texto_padrao = str(padrao) if padrao is not None else 'todos os bits'
-
-        self.add_argument('-b', '--bit', type=plano_de_bit, default=padrao,
-                        help=f'plano de bit (padrão: {texto_padrao})')
+        self.add_argument('-b', '--bit', type=plano_de_bit, default=0,
+                        help=f'plano de bit (padrão: 0)')
 
     def add_saida_imagem(self) -> None:
         """
