@@ -22,8 +22,6 @@ class Argumentos(ArgumentParser):
 
         self.add_argument('imagem', metavar='IMAGEM', type=imagem_entrada,
                         help='imagem de entrada')
-        self.add_argument('-b', '--bit', type=plano_de_bit, default=None,
-                        help='plano de bit')
 
     def add_plano_de_bit(self, padrao: Optional[int]=None) -> None:
         """
