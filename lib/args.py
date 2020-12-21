@@ -3,7 +3,7 @@ Tratamento de argumentos da linha de comando.
 """
 from sys import stdin, stdout
 from argparse import ArgumentParser, ArgumentTypeError, FileType
-from typing import Tuple, Callable, BinaryIO, Optional
+from typing import Tuple, Callable, BinaryIO
 from .tipos import Image
 from .inout import imgread, imgwrite, imgshow
 
@@ -28,7 +28,7 @@ class Argumentos(ArgumentParser):
         Opção para plano de bits.
         """
         self.add_argument('-b', '--bit', type=plano_de_bit, default=0,
-                        help=f'plano de bit (padrão: 0)')
+                        help='plano de bit (padrão: 0)')
 
     def add_saida_imagem(self) -> None:
         """

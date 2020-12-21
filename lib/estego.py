@@ -1,7 +1,6 @@
 """
 Funções de codificação e decodificação para esteganografia.
 """
-from typing import Optional
 import numpy as np
 from .tipos import Image, Bits
 
