@@ -21,7 +21,7 @@ class Cor(IntEnum):
         Leitura de canal de cor.
         """
         try:
-            return cls[cor]
+            return cls[cor.upper()]
         except KeyError as err:
             msg = 'canal de cor inválido'
             raise ArgumentTypeError(msg) from err
