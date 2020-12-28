@@ -2,7 +2,7 @@
 Operações com vetores de bits.
 """
 import numpy as np
-from tipos import Bits
+from .tipos import Bits
 
 
 def separa_bytes(texto: bytes) -> Bits:
