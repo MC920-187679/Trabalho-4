@@ -3,6 +3,7 @@ Funções de codificação e decodificação para esteganografia.
 """
 import numpy as np
 from .tipos import Image
+from .permuta import permutacao, despermutacao
 from .bits import (
     separa_bytes, separa_int,
     junta_bytes, junta_int,
@@ -13,7 +14,7 @@ from .bits import (
 # # # # # # # #
 # CODIFICAÇÃO #
 
-def codifica(img: Image, texto: bytes, bit: int=0) -> Image:
+def codifica(img: Image, texto: bytes, bit: int=0, permuta: bool=False) -> Image:
     """
     Codifica arquivo dentro da imagem, no plano de bits especificado.
 
@@ -25,22 +26,38 @@ def codifica(img: Image, texto: bytes, bit: int=0) -> Image:
         Vetor de bytes do arquivo.
     bit: int, opcional
         Plano do bit de armazenamento. (padrão = 0)
+    permuta: bool, opcional
+        Faz permutação dos dados do arquivo. (padrão = falso)
 
     Retorno
     -------
     out: ndarray
         Imagem com arquivo codificado.
     """
-    # vetor de bits do arquivo, com os primeiros 64 bits indicando tamanho
-    buffer = cat(separa_int(len(texto)), separa_bytes(texto))
+    # vetor de bit com os dados do arquivo
+    dados = separa_bytes(texto)
+    if permuta:
+        # com permutação, trabalho é feito principalmente
+        # na função de permutação
+        idx, buffer = permutacao(dados, img.size)
+    else:
+        # sem permuta, apenas usa primeiros 64 bits para tamanho
+        buffer =  cat(separa_int(len(dados)), dados)
+        # índices de escrita dos dados
+        idx = np.arange(img.size) < len(buffer)
+
+    # indices de acesso na matriz
+    idx = idx.reshape(img.shape)
+    # primeiro bit (MSB do tamanho) indica se houve permutação
+    buffer[0] = int(permuta)
+
     # checa capacidade
-    tam = len(buffer)
-    if tam > img.size:
+    if len(buffer) > img.size:
         raise OverflowError('arquivo muito grande para a imagem')
 
     # armazenamento no plano de bit
-    mascara = ~(np.ones(tam, dtype=np.uint8) << bit)
-    img.flat[:tam] = (img.flat[:tam] & mascara) | (buffer << bit) # pylint: disable=E1137
+    mascara = ~(np.ones(len(buffer), dtype=np.uint8) << bit)
+    img[idx] = (img[idx] & mascara) | (buffer << bit) # pylint: disable=E1137
 
     return img
 
@@ -66,8 +83,17 @@ def decodifica(img: Image, bit: int=0) -> bytes:
     """
     # buffer com o plano de bit
     buffer = ((img >> bit) & 1).ravel('C')
+    # marcador de permutação
+    permutado = bool(buffer[0])
+    buffer[0] = 0
 
-    # recupera o tamanho do texto
-    tamanho = junta_int(buffer[:64])
-    # e o texto
-    return junta_bytes(buffer[64:][:tamanho * 8])
+    if permutado:
+        # despermuta dados
+        buffer = despermutacao(buffer)
+    else:
+        # recupera o tamanho e o texto
+        tamanho = junta_int(buffer[:64])
+        buffer = buffer[64:][:tamanho]
+
+    # objeto bytes do arquivo
+    return junta_bytes(buffer)
