@@ -32,7 +32,7 @@ def codifica(img: Image, texto: bytes, bit: int=0) -> Image:
         Imagem com arquivo codificado.
     """
     # vetor de bits do arquivo, com os primeiros 64 bits indicando tamanho
-    buffer = cap(separa_int(len(texto)), separa_bytes(texto))
+    buffer = cat(separa_int(len(texto)), separa_bytes(texto))
     # checa capacidade
     tam = len(buffer)
     if tam > img.size:
