@@ -1,15 +1,11 @@
 """
 Permutação dos dados do arquivo.
 """
-from typing import Optional, Tuple, List
+from typing import Optional, Tuple
 import numpy as np
 from numpy.random import Generator
-from .tipos import Image, Bits, Indices
-from .bits import (
-    separa_bytes, separa_int,
-    junta_bytes, junta_int,
-    cat
-)
+from .tipos import Bits, Indices
+from .bits import separa_int, junta_int, cat
 
 
 def rng(chave: Optional[int]=None) -> Generator:

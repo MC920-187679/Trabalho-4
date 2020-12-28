@@ -2,7 +2,7 @@
 Funções de codificação e decodificação para esteganografia.
 """
 import numpy as np
-from .tipos import Image, Bits
+from .tipos import Image
 from .bits import (
     separa_bytes, separa_int,
     junta_bytes, junta_int,

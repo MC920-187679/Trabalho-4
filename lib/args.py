@@ -79,8 +79,8 @@ def arquivo_entrada(arquivo: str) -> BinaryIO:
     """
     if arquivo == '-':
         return stdin.buffer
-    else:
-        return FileType('rb')(arquivo)
+
+    return FileType('rb')(arquivo)
 
 def arquivo_saida(arquivo: str) -> Callable[..., None]:
     """
