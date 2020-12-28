@@ -3,29 +3,15 @@ Funções de codificação e decodificação para esteganografia.
 """
 import numpy as np
 from .tipos import Image, Bits
+from .bits import (
+    separa_bytes, separa_int,
+    junta_bytes, junta_int,
+    cat
+)
 
 
 # # # # # # # #
 # CODIFICAÇÃO #
-
-def separa_bits(texto: bytes) -> Bits:
-    """
-    Separa um string de bytes em um vetor de bits.
-    """
-    # buffer com o tamanho
-    tamanho = len(texto).to_bytes(8, 'big')
-    # buffer conjunto
-    buffer = np.frombuffer(tamanho + texto, dtype=np.uint8)
-
-    # matriz com cada bit separado
-    buf = np.zeros((8, len(buffer)), dtype=np.uint8)
-    for i in range(8):
-        buf[i] = buffer & 1
-        buffer = buffer >> 1
-
-    # vetor de bits
-    return buf.T.ravel()
-
 
 def codifica(img: Image, texto: bytes, bit: int=0) -> Image:
     """
@@ -45,8 +31,8 @@ def codifica(img: Image, texto: bytes, bit: int=0) -> Image:
     out: ndarray
         Imagem com arquivo codificado.
     """
-    # vetor de bits do arquivo
-    buffer = separa_bits(texto)
+    # vetor de bits do arquivo, com os primeiros 64 bits indicando tamanho
+    buffer = cap(separa_int(len(texto)), separa_bytes(texto))
     # checa capacidade
     tam = len(buffer)
     if tam > img.size:
@@ -61,20 +47,6 @@ def codifica(img: Image, texto: bytes, bit: int=0) -> Image:
 
 # # # # # # # # #
 # DECODIFICAÇÃO #
-
-def junta_bits(bits: Bits) -> bytes:
-    """
-    Junta vetor de bits em uma string de bytes.
-    """
-    bit = np.reshape(bits, (-1, 8)).T
-    # buffer com o resultado
-    buf = np.zeros_like(bit[0])
-    for i in range(8):
-        # junta bit a bit
-        buf |= bit[i] << i
-
-    return bytes(buf)
-
 
 def decodifica(img: Image, bit: int=0) -> bytes:
     """
@@ -96,6 +68,6 @@ def decodifica(img: Image, bit: int=0) -> bytes:
     buffer = ((img >> bit) & 1).ravel('C')
 
     # recupera o tamanho do texto
-    tamanho = int.from_bytes(junta_bits(buffer[:64]), 'big')
+    tamanho = junta_int(buffer[:64])
     # e o texto
-    return junta_bits(buffer[64:][:tamanho * 8])
+    return junta_bytes(buffer[64:][:tamanho * 8])
