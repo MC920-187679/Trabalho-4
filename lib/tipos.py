@@ -5,7 +5,7 @@ from typing import (
     TYPE_CHECKING, overload,
     Type, Union, Tuple
 )
-from numpy import ndarray, uint8
+from numpy import ndarray, uint8, bool as npbool
 
 if TYPE_CHECKING:
     # Python 3.8+
@@ -23,6 +23,15 @@ class Bits(ndarray): # type: ignore
     Os 64 bits iniciais são o tamanho do texto.
     """
     dtype: Type[uint8] = uint8
+    ndim: Literal[1] = 1
+    shape: Tuple[int]
+
+
+class Indices(ndarray): # type: ignore
+    """
+    Vetor booleana de índices para acesso em outro `ndarray`.
+    """
+    dtype: Type[npbool] = npbool
     ndim: Literal[1] = 1
     shape: Tuple[int]
 
