@@ -84,7 +84,7 @@ def imagem_entrada(arquivo: str) -> Tuple[Image, str]:
     try:
         # argumento especial
         if arquivo == '-':
-            return decode(stdin.read()), '[STDIN]'
+            return decode(stdin.buffer.read()), '[STDIN]'
         # arquivos comuns
         with open(arquivo, 'rb') as file:
             return decode(file.read()), arquivo
@@ -99,7 +99,7 @@ def imagem_saida(arquivo: str) -> Callable[[Image, str], None]:
     def saida(img: Image, _entrada: str) -> None:
         # argumento especial
         if arquivo == '-':
-            stdout.write(encode(img))
+            stdout.buffer.write(encode(img))
         # arquivos comuns
         else:
             imgwrite(img, arquivo)
