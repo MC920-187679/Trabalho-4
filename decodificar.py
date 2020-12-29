@@ -10,7 +10,7 @@ DESCRICAO = 'Ferramenta de decodificação de arquivo em imagem.'
 parser = Argumentos(DESCRICAO)
 parser.add_plano_de_bit()
 # opções de saída
-parser.add_argument('saida', metavar='SAIDA', type=arquivo_saida,
+parser.add_argument('saida', metavar='SAIDA', type=arquivo_saida, default='-', nargs='?',
                     help='arquivo para armazenar resultado')
 parser.add_argument('-n', dest='end', action='store_const', const=b'\n', default=b'',
                     help='imprime nova linha')
