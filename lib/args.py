@@ -111,6 +111,7 @@ def arquivo_entrada(arquivo: str) -> BinaryIO:
     """
     Abre arquivo binário para leitura.
     """
+    # argumento especial
     if arquivo == '-':
         return stdin.buffer
 
@@ -121,10 +122,12 @@ def arquivo_saida(arquivo: str) -> Callable[..., None]:
     Retorna função de escrita em arquivo binário.
     """
     def escreve(*texto: bytes) -> None:
+        # argumento especial
         if arquivo == '-':
             for buf in texto:
                 stdout.buffer.write(buf)
         else:
+            # arquivos comuns
             with open(arquivo, 'wb') as file:
                 for buf in texto:
                     file.write(buf)
