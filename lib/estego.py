@@ -57,7 +57,7 @@ def codifica(img: Image, texto: bytes, bit: int=0, permuta: bool=False) -> Image
 
     # armazenamento no plano de bit
     mascara = ~(np.ones(len(buffer), dtype=np.uint8) << bit)
-    img[idx] = (img[idx] & mascara) | (buffer << bit) # pylint: disable=E1137
+    img[idx] = (img[idx] & mascara) | (buffer << bit)
 
     return img
 
