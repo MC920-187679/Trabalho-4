@@ -2,8 +2,15 @@
 Tratamento de argumentos da linha de comando.
 """
 from sys import stdin, stdout
-from argparse import ArgumentParser, ArgumentTypeError, FileType
-from typing import Tuple, Callable, BinaryIO
+from warnings import warn
+from argparse import (
+    ArgumentParser, FileType,
+    ArgumentTypeError, Namespace
+)
+from typing import (
+    Tuple, Callable, BinaryIO,
+    Optional, Sequence
+)
 from .tipos import Image
 from .inout import imgread, imgwrite, imgshow
 
@@ -36,6 +43,18 @@ class Argumentos(ArgumentParser):
         """
         self.add_argument('-o', '--output', dest='saida', type=imagem_saida, default=imgshow,
                         help='salva resultado em arquivo (padrão: exibe em janela)')
+
+    def parse_intermixed_args(self, args: Optional[Sequence[str]]=None,
+                              namespace: Optional[Namespace]=None) -> Namespace:
+        """
+        Parser de argumentos com ordem mistas.
+        Só funciona em Python 3.7 ou superior.
+        """
+        try:
+            return super().parse_intermixed_args(args, namespace)
+        except AttributeError:
+            warn('Python 3.6 não suporta argumentos opcionais após entrada')
+            return super().parse_args(args, namespace)
 
 
 def plano_de_bit(bit: str) -> int:
