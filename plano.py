@@ -1,7 +1,6 @@
 """
 Ferramenta de extração do plano de bit.
 """
-from argparse import ArgumentTypeError
 from enum import IntEnum, unique
 from lib.args import Argumentos
 
@@ -20,11 +19,7 @@ class Cor(IntEnum):
         """
         Leitura de canal de cor.
         """
-        try:
-            return cls[cor.upper()]
-        except KeyError as err:
-            msg = 'canal de cor inválido'
-            raise ArgumentTypeError(msg) from err
+        return cls[cor.upper()]
 
     def __str__(self) -> str:
         return str(self.name)
