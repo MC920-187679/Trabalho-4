@@ -31,3 +31,27 @@ Todas as ferramentas foram desenvolvidas e \red{testadas} em Python 3.6 ou super
     Todas as imagens base para o processamento discutido ao longo do texto estão presente na pasta \texttt{imagens}. Os textos de exemplo da esteganografia estão na pasta \texttt{textos}.
 
     Também existem dois \textit{scripts} em Python utilizados para análise dos resultados: \texttt{plano.py}, para extração de planos de bit, e \texttt{dist.py}, para medidas de similaridade de imagens. Por fim, o \textit{script} \texttt{run.sh} em Bash refaz todos resultados apresentados neste relatório.
+
+\subsection{Execução}
+
+    A execução de ambos os programas deverá ser feita através do interpretador de Python 3.6+. Os exemplos de execuções a seguir funcionam apenas em Python 3.7+, mas o \textit{script} \texttt{run.sh} também funciona em 3.6.
+
+    Todas as opções a seguir também estão explicadas com o texto de ajuda de cada ferramenta. Ele pode ser acessado com a \textit{flag} \mintinline{bash}{--help} ou apenas \mintinline{bash}{-h}.
+
+    \subsubsection{Codificação}
+
+    A primeira tem um argumento obrigatório: a imagem, preferencialmente PNG, onde os dados serão ocultados. Um segundo argumento pode ser passado, especificando o arquivo a ser armazenado. Caso ele não apareça, o arquivo é lido da entrada padrão.
+
+    Por padrão, a imagem resultante é apresentada em uma nova janela gráfica. No entanto, a imagem pode ser salva com a opção \mintinline{bash}{--output} ou \mintinline{bash}{-o} e o arquivo de salvamento. A seguir temos a exemplo de como guardar o texto ``MC920'' na imagem \texttt{baboon.png} com o resultado salvo em \texttt{saida.png}.
+
+    \begin{minted}{bash}
+        $ echo MC920 | python3 codificar.py imagens/baboon.png -o saida.png
+    \end{minted}
+
+    Note que o arquivo ocultado pode ser qualquer arquivo, não apenas texto. Além disso, por padrão o arquivo é escrito no plano de bit menos significativo da imagem. Isso pode ser alterado com a opção \mintinline{bash}{--bit} ou \mintinline{bash}{-b}. Por exemplo:
+
+    \begin{minted}{bash}
+        $ python3 codificar.py imagens/watch.png imagens/monalisa.png -b 2
+    \end{minted}
+
+    Existe ainda uma opção sobre a ordem de escrita na imagem, \mintinline{bash}{-p} ou \mintinline{bash}{--permuta}, que será melhor apresentada na seção \red{QUAL\qm}.
