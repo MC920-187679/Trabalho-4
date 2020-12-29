@@ -13,7 +13,7 @@ parser.add_plano_de_bit()
 parser.add_argument('saida', metavar='SAIDA', type=arquivo_saida, default='-', nargs='?',
                     help='arquivo para armazenar resultado')
 parser.add_argument('-n', dest='end', action='store_const', const=b'\n', default=b'',
-                    help='imprime nova linha')
+                    help='imprime nova linha no final')
 
 if __name__ == '__main__':
     args = parser.parse_intermixed_args()
