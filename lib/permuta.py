@@ -15,14 +15,8 @@ def rng(chave: Optional[int]=None) -> Generator:
     return np.random.default_rng(chave)
 
 
-def invp(p: np.ndarray) -> np.ndarray:
-    """
-    Encontra a permutação inversa de `p`.
-    """
-    inv = np.zeros_like(p)
-    inv[p] = np.arange(len(p), dtype=p.dtype)
-    return inv
-
+# # # # # # # #
+# CODIFICAÇÃO #
 
 # Largura dos inteiros utilizados
 INTW = 64
@@ -88,6 +82,18 @@ def permutacao(buffer: Bits, cap: int) -> Tuple[Indices, Bits]:
     idx = cat(idx_tam, idx, idx_tam)
 
     return idx, buffer
+
+
+# # # # # # # # #
+# DECODIFICAÇÃO #
+
+def invp(p: np.ndarray) -> np.ndarray:
+    """
+    Encontra a permutação inversa de `p`.
+    """
+    inv = np.zeros_like(p)
+    inv[p] = np.arange(len(p), dtype=p.dtype)
+    return inv
 
 
 def despermutacao(buffer: Bits) -> Bits:

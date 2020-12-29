@@ -5,6 +5,9 @@ import numpy as np
 from .tipos import Bits
 
 
+# # # # # # # # #
+# SERIALIZAÇÃO  #
+
 def separa_bytes(texto: bytes) -> Bits:
     """
     Separa um string de bytes em um vetor de bits.
@@ -19,7 +22,6 @@ def separa_bytes(texto: bytes) -> Bits:
     # vetor de bits
     return buf.T.ravel()
 
-
 def separa_int(num: int, n: int=64) -> Bits:
     """
     Separa um inteiro em um vetor de `n` bits.
@@ -27,6 +29,9 @@ def separa_int(num: int, n: int=64) -> Bits:
     bits = (num >> np.arange(n, dtype=np.uint64)) & 1
     return bits.astype(np.uint8)
 
+
+# # # # # # # # # #
+# DESSERIALIZAÇÃO #
 
 def junta_bytes(bits: Bits) -> bytes:
     """
@@ -50,6 +55,9 @@ def junta_int(bits: Bits) -> int:
     # print(base, bits, np.sum(bits * base, dtype=np.uint64))
     return int(np.sum(bits * base, dtype=np.uint64))
 
+
+# # # # # # # # #
+# CONCATENAÇÃO  #
 
 def cat(*bits: Bits) -> Bits:
     """
