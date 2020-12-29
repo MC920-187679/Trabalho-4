@@ -1,1 +1,33 @@
 \section{O Programa}
+
+Neste trabalho foram desenvolvidas duas ferramentas, \texttt{codificar.py} e \texttt{decodificar.py} que fazem todo o processo de esteganografia. Boa parte do código delas é compartilhado pelos arquivos na pasta \texttt{lib} do código-fonte. Além disso, também existem duas ferramentas usadas para análise dos resultados, a \texttt{dist.py} e \texttt{plano.py}, que não são necessárias para a execução do \red{processo de esteganografia}.
+
+Todas as ferramentas foram desenvolvidas e \red{testadas} em Python 3.6 ou superior. Além da biblioteca padrão da linguagem, foram utilizados também os pacotes OpenCV, para entrada e saída de imagens, e Numpy \red{1.17}, para aplicação vetorizada da esteganografia.
+
+\subsection{Código-Fonte}
+
+    \begin{description}
+        \item[codificar.py] Pacote interno com as operações de limiarização.
+
+        \item[decodificar.py] Pacote interno com as operações de limiarização.
+
+        \item[lib] Pacote interno com as operações de limiarização.
+
+        \begin{description}
+            \item[bits.py] Wrapper para a chamada das funções em C.
+
+            \item[estego.py] Funções de cálculo do limiar da vizinhança do pixel.
+
+            \item[permuta.py] Operações de mínimo, máximo, média, desvio padrão e mediana.
+
+            \item[args.py] Tratamento de entrada e saída do programa.
+
+            \item[inout.py] Tratamento de entrada e saída do programa.
+
+            \item[tipos.py] Tipos para checagem estática com MyPy.
+        \end{description}
+
+        \item[plano.py] Pacote interno com as operações de limiarização.
+
+        \item[dist.py] Pacote interno com as operações de limiarização.
+    \end{description}
