@@ -24,11 +24,11 @@ class Argumentos(ArgumentParser):
     descricao: str
         Descrição da ferramenta.
     """
-    def __init__(self, descricao: str):
+    def __init__(self, descricao: str, add_imagem: bool=True):
         super().__init__(allow_abbrev=False, description=descricao)
 
-        self.add_argument('imagem', metavar='IMAGEM', type=imagem_entrada,
-                        help='imagem de entrada')
+        if add_imagem:
+            self.add_entrada_imagem('imagem')
 
     def add_plano_de_bit(self) -> None:
         """
@@ -36,6 +36,12 @@ class Argumentos(ArgumentParser):
         """
         self.add_argument('-b', '--bit', type=plano_de_bit, default=0,
                         help='plano de bit (padrão: 0)')
+
+    def add_entrada_imagem(self, var: str, descricao: str='imagem de entrada') -> None:
+        """
+        Opção para entrada de imagens.
+        """
+        self.add_argument(var, metavar=var.upper(), type=imagem_entrada, help=descricao)
 
     def add_saida_imagem(self) -> None:
         """

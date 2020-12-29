@@ -1,8 +1,8 @@
 """
 Medição de similaridade entre imagens.
 """
-import sys, cv2
 import numpy as np
+from lib.args import Argumentos
 
 
 def EMAX(f, g):
@@ -37,28 +37,41 @@ def corr(f, g):
 def jaccard(f, g):
     return np.mean(f == g)
 
+# todos as medidas acima
 METODOS = {
     'EMAX': EMAX, 'MAE': MAE, 'RMSE': RMSE,
     'PSNR': PSNR, 'SNR': SNR, 'COV': cov,
     'COR': corr, 'JACC': jaccard
 }
 
-try:
-    _, f, g, metodo = sys.argv
-except ValueError:
-    _, f, g = sys.argv
-    metodo = METODOS.keys()
-
-f = cv2.imread(f, cv2.IMREAD_COLOR)
-g = cv2.imread(g, cv2.IMREAD_COLOR)
-assert f is not None and g is not None
-f, g = f.astype(np.float64), g.astype(np.float64)
+# parser dos argumentos da linha de comando
+parser = Argumentos('Medida de similaridade entre imagens.', add_imagem=False)
+parser.add_entrada_imagem('img1')
+parser.add_entrada_imagem('img2')
+parser.add_argument('medida', metavar='MEDIDA', nargs='*', default=METODOS.keys())
+parser.add_argument('-b', '--bit', type=int, default=None)
 
 
-if isinstance(metodo, str):
-    dist = METODOS[metodo.upper()](f, g)
-    print(dist)
+if __name__ == '__main__':
+    args = parser.parse_intermixed_args()
 
-for mtd in metodo:
-    dist = METODOS[mtd](f.copy(), g.copy())
-    print(dist, mtd)
+    (f, _), (g, _) = args.img1, args.img2
+    # extração do bit escolhido
+    if args.bit is not None:
+        f = (f >> args.bit) & 1
+        g = (g >> args.bit) & 1
+        # a imagem agora é apenas 1 nível de cinza
+        METODOS['PSNR'] = lambda f, g: PSNR(f, g, Lmax=1)
+    # ponto flutuante para evitar arredondamentos
+    f = f.astype(np.float64)
+    g = g.astype(np.float64)
+
+    # com apenas uma medida, não mostra nome
+    if len(args.medida) == 1:
+        metodo = args.medida.pop()
+        dist = METODOS[metodo.upper()](f, g)
+        print(dist)
+    # com mais de uma, sim
+    for metodo in args.medida:
+        dist = METODOS[metodo.upper()](f.copy(), g.copy())
+        print(dist, metodo)
