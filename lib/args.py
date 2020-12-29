@@ -24,7 +24,7 @@ class Argumentos(ArgumentParser):
     descricao: str
         Descrição da ferramenta.
     """
-    def __init__(self, descricao: str, ):
+    def __init__(self, descricao: str):
         super().__init__(allow_abbrev=False, description=descricao)
 
         self.add_argument('imagem', metavar='IMAGEM', type=imagem_entrada,
