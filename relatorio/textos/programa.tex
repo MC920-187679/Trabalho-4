@@ -55,3 +55,15 @@ Todas as ferramentas foram desenvolvidas e \red{testadas} em Python 3.6 ou super
     \end{minted}
 
     Existe ainda uma opção sobre a ordem de escrita na imagem, \mintinline{bash}{-p} ou \mintinline{bash}{--permuta}, que será melhor apresentada na seção \red{QUAL\qm}.
+
+    \subsubsection{Decodificação}
+
+    A ferramenta de decodificação é mais simples, recebendo apenas a imagem já esteganografada. Após a decodificação, o arquivo resultante é escrito na saída padrão. Um segundo argumento pode ser especificado para armazenar o resultado em um arquivo.
+
+    Note que, para funcionamento correto da ferramenta, é necessário que a decodificação seja feita no mesmo plano de bit em que o arquivo doi embutido. Para isso, existe a \textit{flag} \mintinline{bash}{--bit} ou \mintinline{bash}{-b}, assim como na codificação. Por exemplo:
+
+    \begin{minted}{bash}
+        $ echo MC920 | python3 codificar.py imagens/peppers.png -o saida.png -b 1
+        $ python3 decodificar.py saida.png -b 1
+        MC920
+    \end{minted}
