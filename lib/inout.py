@@ -6,14 +6,41 @@ import cv2
 from .tipos import Image
 
 
-def imgread(arquivo: str) -> Image:
+def encode(img: Image) -> bytes:
     """
-    Lê um arquivo de imagem em escala de cinza.
+    Codifica imagem em buffer PNG.
 
     Parâmetros
     ----------
-    arquivo: str
-        Caminho para o arquivo de imagem a ser lido.
+    img: ndarray
+        Matriz representando a imagem.
+
+    Retorno
+    -------
+    buf: bytes
+        Buffer com dados da imagem em PNG.
+
+    Erro
+    ----
+    ValueError
+        A entrada não representa uma imagem.
+    """
+    ok, buf = cv2.imencode('.png', img)
+    # problemas de codificação
+    if not ok:
+        raise ValueError('não foi possível codificar em PNG')
+
+    return buf.tobytes()
+
+
+def decode(buffer: bytes) -> Image:
+    """
+    Decodifica imagem colorida de um buffer PNG.
+
+    Parâmetros
+    ----------
+    buffer: bytes
+        Dados do arquivo da imagem.
 
     Retorno
     -------
@@ -22,45 +49,40 @@ def imgread(arquivo: str) -> Image:
 
     Erro
     ----
-    OSError
-        Arquivo não pode ser lido ou não existe.
     ValueError
         Arquivo não pode ser decodificado como imagem.
     """
-    # abre o arquivo fora do OpenCV, para que o
-    # Python trate os erros de IO
-    with open(arquivo, mode='rb') as filebuf:
-        buf = np.frombuffer(filebuf.read(), dtype=np.uint8)
-
-    # só resta tratar problemas de decodificação
-    img: Image = cv2.imdecode(buf, cv2.IMREAD_COLOR)
+    buf = np.frombuffer(buffer, dtype=np.uint8)
+    img = cv2.imdecode(buf, cv2.IMREAD_COLOR)
+    # problemas de decodificação
     if img is None:
-        msg = f'não foi possível parsear "{arquivo}" como imagem'
-        raise ValueError(msg)
+        raise ValueError('não foi possível parsear dado como imagem')
 
     return img
 
 
-def imgwrite(img: Image, arquivo: str) -> None:
+def imgwrite(img: Image, caminho: str) -> None:
     """
-    Escreve uma matriz como imagem PNG ou PGM em um arquivo.
+    Escreve.
 
     Parâmetros
     ----------
+    buffer: bytes
+        Dados do arquivo da imagem.
+
+    Retorno
+    -------
     img: ndarray
-        Matriz representando uma imagem.
-    arquivo: str
-        Caminho para o arquivo onde a imagem será gravada.
+        Matriz representando a imagem lida.
 
     Erro
     ----
     ValueError
-        A images não pode ser salva no arquivo ou a entrada não
-        representa uma imagem.
+        Problema de escrita no caminho especificado ou
+        codificação da imagem.
     """
-    if not cv2.imwrite(arquivo, img):
-        msg = f'não foi possível salvar a imagem em "{arquivo}"'
-        raise ValueError(msg)
+    if not cv2.imwrite(caminho, img):
+        raise ValueError('problema de escrita ou codificação')
 
 
 def imgshow(img: Image, nome: str="", delay: int=250) -> None:

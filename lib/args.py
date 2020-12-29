@@ -12,7 +12,7 @@ from typing import (
     Optional, Sequence
 )
 from .tipos import Image
-from .inout import imgread, imgwrite, imgshow
+from .inout import encode, decode, imgshow, imgwrite
 
 
 class Argumentos(ArgumentParser):
@@ -82,18 +82,27 @@ def imagem_entrada(arquivo: str) -> Tuple[Image, str]:
     Leitura e decodificação de imagem.
     """
     try:
-        img = imgread(arquivo)
-        return img, arquivo
+        # argumento especial
+        if arquivo == '-':
+            return decode(stdin.read()), '[STDIN]'
+        # arquivos comuns
+        with open(arquivo, 'rb') as file:
+            return decode(file.read()), arquivo
+
     except (OSError, ValueError) as err:
-        msg = f"{err}"
-        raise ArgumentTypeError(msg) from err
+        raise ArgumentTypeError(str(err)) from err
 
 def imagem_saida(arquivo: str) -> Callable[[Image, str], None]:
     """
     Retorna função para codificação e escrita de imagem.
     """
     def saida(img: Image, _entrada: str) -> None:
-        imgwrite(img, arquivo)
+        # argumento especial
+        if arquivo == '-':
+            stdout.write(encode(img))
+        # arquivos comuns
+        else:
+            imgwrite(img, arquivo)
 
     return saida
 
