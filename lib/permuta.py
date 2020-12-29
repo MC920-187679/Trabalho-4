@@ -3,9 +3,14 @@ Permutação dos dados do arquivo.
 """
 from typing import Optional, Tuple
 import numpy as np
-from numpy.random import Generator
 from .tipos import Bits, Indices
 from .bits import separa_int, junta_int, cat
+
+try:
+    # funciona apenas para Numpy 1.17+
+    from numpy.random import Generator
+except ImportError:
+    Generator = 'np.random.Generator'
 
 
 def rng(chave: Optional[int]=None) -> Generator:
