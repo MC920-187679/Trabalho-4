@@ -25,9 +25,9 @@
 
     \input{imagens/pequeno}
 
-    Nesse caso, temos a \cref{fig:pequeno:imagem} esteganografada com um texto curto, de aproximadamente 600 palavras. O texto, \texttt{enunciado.md}, é basicamente uma transcrição do enunciado do projeto para Markdown, composto de 4.5 KiB de dados.
+    Nesse caso, temos a \cref{fig:pequeno:imagem} esteganografada com um texto curto, de aproximadamente 600 palavras. O texto, \texttt{enunciado.md}, é basicamente uma transcrição do enunciado do trabalho 4 para Markdown, composto de 4.5 KiB de dados.
 
-    Podemos que a presença do conteúdo começa a se tornar perceptível, no plano de bit menos significativo. Na imagem como um todo, no entanto, ainda não é diferenciável. Os índices confirmar isso com um RMSE de 0.15 e UIQ também muito próximo a 1.
+    Aqui, a presença do conteúdo já começa a se tornar perceptível no plano de bit menos significativo. Na imagem como um todo, no entanto, ainda não é diferenciável. Os índices confirmam isso com RMSE igual a 0.15 e UIQ também muito próximo a 1.
 
     \begin{minted}{bash}
         $ python3 codificar.py imagens/peppers.png textos/enunciado.md -o saida.png
@@ -40,7 +40,7 @@
 
     \input{imagens/grande}
 
-    Novamente, mais uma imagem indistiguível da original, apesar de ter um RMSE de 0.7 e UIQ 0.9998. O plano 0 aqui, por estar quase todo preenchido, é um pouco menos suspeito para um observador desacustumado. No entanto, pelo padrões de linhas, ele ainda seria facilmente detectável.
+    Novamente, mais uma imagem indistiguível da original, apesar de ter um RMSE de 0.7 e UIQ 0.9998. O plano 0 aqui, por estar quase todo preenchido, é um pouco menos suspeito para um observador desabituado. No entanto, pelo padrões de linhas verticais, ele ainda seria facilmente detectável.
 
     O texto nesse caso é composto das 28700 primeiras palavras do \texttt{words.txt}.
 
@@ -58,7 +58,7 @@
 
     Para arquivos não-textuais, como arquivos \textit{zip} ou PNG, os padrões gerados na imagens são menos reconhecíveis que as linhas verticais geradas pelos caracteres advindos do padrão ASCII.
 
-    Ainda assim, podemos ver um risco horizontal na \cref{fig:binzip} onde o arquivo se encerra, mesmo com um ruído forte no plano 0 da imagem original. Podemos ver também onde a \texttt{monalisa.png} se encerra na \cref{fig:binmona}, mas isso principalmente porque a \texttt{watch.png} tem baixo ruído no plano menos significativo.
+    Ainda assim, podemos ver um risco horizontal na \cref{fig:binzip} onde o arquivo oculto se encerra, mesmo com um ruído forte no plano 0 da imagem original. Podemos ver também onde a \texttt{monalisa.png} se encerra na \cref{fig:binmona}, mas isso principalmente porque a \texttt{watch.png} tem baixo ruído no plano menos significativo.
 
     \begin{minted}{bash}
         # ocultação do código fonte comprimido
@@ -71,26 +71,26 @@
 
 \subsection{Permutação}
 
-    Os dados do arquivo a ser ocultado, assim como discutido na \cref{sec:permutacao}, também podem ser inseridos em posições pseudo-aleatórias da imagem, de forma a redistribuir os bits e ocultar os padrões que podem aparecer. Podemos ver que para a \cref{fig:permtexto}, o padrão do \texttt{enunciado.md} fica praticamente escondido no ruído do plano 0. As medidas de similaridade, RMSE, UIQ e outras, em geral não têm diferenças significativas, pois não levam em conta a posição do pixel.
+    Os dados do arquivo a ser ocultado, assim como discutido na \cref{sec:permutacao}, também podem ser inseridos em posições pseudo-aleatórias da imagem, de forma a redistribuir os bits e ocultar os padrões que podem aparecer. Podemos ver que para a \cref{fig:permtexto}, o padrão do \texttt{enunciado.md} fica praticamente escondido no ruído do plano 0. As medidas de similaridade, RMSE, UIQ e outras, em geral não têm diferenças significativas do algoritmo mais simples, pois não levam em conta a posição do pixel.
 
     ~
 
     \input{imagens/permtexto}
 
-    Já na \cref{fig:permbin}, podemos ver um outro problema. A imagem original, \texttt{watch.png}, não apresenta muito ruído do plano menos significativo. Por conta disso, o pseudo-ruído gerado pela ocultação da imagem \texttt{monalisa.png} acaba ficando um pouco estranho. Ainda assim, é argumentável que o que aparece em vários outros resultados da ferramenta.
+    Já na \cref{fig:permbin}, podemos ver um outro problema. A imagem original, \texttt{watch.png}, não apresenta muito ruído do plano menos significativo. Por conta disso, o pseudo-ruído gerado pela ocultação da imagem \texttt{monalisa.png} acaba ficando um pouco estranho. Ainda assim, é argumentável que isso é menos chamativo do que o que aparece em vários outros resultados do algoritmo mais simple.
 
-    As imagens aqui foram geradas com os mesmos comandos encontrados na \cref{sec:pequeno} e \cref{sec:binarios}. A única diferença é a \textit{flag} \mintinline{bash}{-p}, apresentada na \cref{sec:permutacao}.
+    As imagens aqui foram geradas com os mesmos comandos encontrados na \cref{sec:pequeno} e \cref{sec:binarios}. A única diferença é a adição da \textit{flag} \mintinline{bash}{-p}, apresentada na \cref{sec:permutacao}.
 
     \input{imagens/permbin}
 
 \section{Outros Planos de Bit}
 
-    A influência do plano de bit para a esteganografia é muito importante. Normalmente, em imagens mais naturais, como fotos, os 3 planos menos significativos (0, 1 e 2) causam um impacto quase imperceptível ao olho humano. Isso é pouco aparente na \cref{fig:monalisa:3}, mas fica bem claro na \cref{fig:monalisa:4}.
+    A influência do plano de bit para a esteganografia é muito importante. Normalmente, em imagens mais naturais, como fotos, os 3 planos menos significativos (0, 1 e 2) causam um impacto quase imperceptível ao olho humano. Para os outros planos, a interferência na imagem original pode acabar sendo percebida. Isso pode ser visto com a \texttt{monalisa.png}, que ainda parece com a origrina na \cref{fig:monalisa:3}, mas fica claramente alterada na \cref{fig:monalisa:4}.
 
     \input{imagens/monalisa}
 
-    Em figuras mais geométricas e menor variação de iluminação, por exemplo, os efeitos podem ser mais aparentes. Isso acontece na \cref{fig:peppers}, em que o plano 3 já começa a indicar algum artefato suspeito na imagem.
+    Em figuras mais geométricas e com menor variação de iluminação, por exemplo, os efeitos podem ser mais aparentes. Isso acontece na \cref{fig:peppers}, em que o plano 3 já começa a indicar algum artefato suspeito na imagem.
 
-    As medidas de similaridade, como esperado, pioram quanto maior for o plano de ocultação. No entanto, a medida RMSE apresentou padrão exponencial, dobrando a cada incremento no número do plano. Por exemplo, a \cref{fig:monalisa:0} teve um RMSE de 0.306, a \cref{fig:monalisa:1} foi 0.611, até a \cref{fig:monalisa:4} com $4.93 \approx 0.306 \cdot 2^4$. O padrão também apareceu nos planos mais significativos e na \texttt{peppers.png}.
+    As medidas de similaridade, como esperado, pioram quanto maior for o plano de esteganografia. No entanto, a medida RMSE apresentou padrão exponencial, dobrando a cada incremento no número do plano. Por exemplo, a \cref{fig:monalisa:0} teve um RMSE de 0.306, a \cref{fig:monalisa:1} foi 0.611, até a \cref{fig:monalisa:4} com $4.93 \approx 0.306 \cdot 2^4$. O padrão também apareceu nos planos mais significativos e na \texttt{peppers.png}.
 
     \input{imagens/peppers}
