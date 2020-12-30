@@ -21,7 +21,7 @@
 
     \input{imagens/assinatura}
 
-\subsection{Texto Pequeno}
+\subsection{Texto Pequeno} \label{sec:pequeno}
 
     \input{imagens/pequeno}
 
@@ -51,7 +51,7 @@
         Files - and /proc/self/fd/12 are identical
     \end{minted}
 
-\subsection{Arquivos Binários}
+\subsection{Arquivos Binários} \label{sec:binarios}
 
     \input{imagens/binzip}
     \input{imagens/binmona}
@@ -71,7 +71,16 @@
 
 \subsection{Permutação}
 
+    Os dados do arquivo a ser ocultado, assim como discutido na \red{permutação}, também podem ser inseridos em posições pseudo-aleatórias da imagem, de forma a redistribuir os bits e ocultar os padrões que podem aparecer. Podemos ver que para a \cref{fig:permtexto}, o padrão do \texttt{enunciado.md} fica praticamente escondido no ruído do plano 0. As medidas de similaridade, RMSE, UIQ e outras, em geral não têm diferenças significativas, pois não levam em conta a posição do pixel.
+
+    ~
+
     \input{imagens/permtexto}
+
+    Já na \cref{fig:permbin}, podemos ver um outro problema. A imagem original, \texttt{watch.png}, não apresenta muito ruído do plano menos significativo. Por conta disso, o pseudo-ruído gerado pela ocultação da imagem \texttt{monalisa.png} acaba ficando um pouco estranho. Ainda assim, é argumentável que o que aparece em vários outros resultados da ferramenta.
+
+    As imagens aqui foram geradas com os mesmos comandos encontrados na \cref{sec:pequeno} e \cref{sec:binarios}. A única diferença é a \textit{flag} \mintinline{bash}{-p}, apresentada na \red{permutação}.
+
     \input{imagens/permbin}
 
 %% TODO %%
@@ -83,8 +92,8 @@
 % x Binario (Imagem / Zip) [bab|pep]
 %
 % Permutado
-% - Texto Pequeno [mon] -- Tamanho + Chave
-% - Texto Grande [bab|pep]
+% x Texto Pequeno [mon] -- Tamanho + Chave
+% x Texto Grande [bab|pep]
 %
 % Plano de bit
 % - 0, 1, 2
