@@ -1,7 +1,7 @@
 .vscode
 .mypy*
 __pycache__
-out.png
+saida.png
 *.fls*
 *.aux*
 *.fdb*
