@@ -1,1 +1,44 @@
 \section{Resultados}
+
+%% TODO %%
+%
+% Geral
+% x Assinatura [mon]
+% x Texto Pequeno [mon][wat]
+% - Texto Grande [bab|pep]
+% - Binario (Imagem / Zip) [bab|pep]
+%
+% Permutado
+% - Texto Pequeno [mon] -- Tamanho + Chave
+% - Texto Grande [bab|pep]
+% - ?: Binário
+%
+% Plano de bit
+% - 0, 1, 2
+% - ?: 3, 5, 7
+
+\subsection{Técnica Padrão}
+
+\subsubsection{Assinatura}
+
+    Podemos ver pela \cref{fig:assinatura} que assinatura digitais, normalmente com menos de caracteres, são imperceptíveis na imagem como um todo. No plano de bit específico, a diferença também não é visível ao olho humano.
+
+    O resultado na \cref{fig:assinatura:imagem} contém o texto ``Realizzato da Leonardo da Vinci™'', representado em UTF-8 por 35 bytes. Juntamente com o cabeçalho de 8 bytes, a assinatura ocupa 344 bits do plano menos significativo. Isso não chega a metade da primeira linha ($256 \times 3$ bits de capacidade).
+
+    A imagem pode ser produzida por:
+
+    \begin{minted}{bash}
+        $ echo Realizzato da Leonardo da Vinci™ | python3 codificar.py imagens/monalisa.png -o saida.png
+    \end{minted}
+
+    E verficada com:
+
+    \begin{minted}{bash}
+        $ python3 decodificar.py saida.png
+        Realizzato da Leonardo da Vinci™
+        $ # OU
+        $ python3 decodificar.py saida.png | diff -qs - <(echo Realizzato da Leonardo da Vinci™)
+        Files - and /proc/self/fd/12 are identical
+    \end{minted}
+
+    \input{imagens/assinatura}
