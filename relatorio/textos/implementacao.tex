@@ -1,12 +1,12 @@
 \section{Implementação} \label{sec:implementacao}
 
-O primeiro passo no algoritmo \red{codificação} implementado para esteganografia foi transformar o dados do arquivo de entrada em um vetor de bits. Assim, a mensagem ``IC'', dada pelos bytes 0x49 e 0x43, seria representada pelo vetor $[1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0]$. Para que seja possível a recuperação, também é adicionado um vetor de 64 bits antes do vetor de bits da imagem, representando o tamanho desse vetor.
+O primeiro passo no algoritmo de codificação implementado da esteganografia foi transformar o dados do arquivo de entrada em um vetor de bits. Assim, a mensagem ``IC'', dada pelos bytes 0x49 e 0x43, seria representada pelo vetor $[1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0]$. Para que seja possível a recuperação, também é adicionado um vetor de 64 bits antes do vetor de bits da imagem, representando o tamanho desse vetor.
 
 Para injetar esse vetor na imagem são feitas algumas manipulações binárias simples. Para cada byte da imagem é aplicada uma máscara responsável por zerar o plano de bit especificado. Após isso, o bit que será inserido é deslocado (por \textit{bitshift}) para a posição certa e aplicado por um \textit{bitwise or} no byte da imagem novamente. Isso é feito até encerrar o vetor de bits
 
-No código, isso foi feito de forma vetorizada, utilizando uma matriz booleana para indexação.
+No código-fonte entregue, o mesmo processo é feito de forma vetorizada, utilizando uma matriz booleana para indexação.
 
-Para a decodificação o processo é ainda mais simples. Basta extrair o plano de bit correto em um vetor de bits, recupera o tamanho do arquivo nos primeiros 64 bits e usa isso para recuperar o vetor de bits que realmente fazem parte do arquivo. O resultado é uma mera aglutinação desses bits em caracteres ou bytes.
+Para a decodificação o processo é ainda mais simples. Basta extrair o plano de bit correto em um vetor de bits, recuperar o tamanho do arquivo nos primeiros 64 bits e usar isso para recuperar o vetor dos bits que realmente fazem parte do arquivo. O resultado é uma mera aglutinação desses bits em caracteres ou bytes.
 
 \subsection{Permutação} \label{sec:permutacao}
 
