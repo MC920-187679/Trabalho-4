@@ -7,3 +7,13 @@ Para injetar esse vetor na imagem são feitas algumas manipulações binárias s
 No código, isso foi feito de forma vetorizada, utilizando uma matriz booleana para indexação.
 
 Para a decodificação o processo é ainda mais simples. Basta extrair o plano de bit correto em um vetor de bits, recupera o tamanho do arquivo nos primeiros 64 bits e usa isso para recuperar o vetor de bits que realmente fazem parte do arquivo. O resultado é uma mera aglutinação desses bits em caracteres ou bytes.
+
+\subsection{Permutação} % TODO: esse nome?
+
+O modelo anterior insere os bits sempre do começo pro final da imagem, o que pode gerar marcas bem claras na imagem \red{(resultados\qm)}. Uma maneira de evitar isso é distribuindo os dados do arquivo por toda a imagem, como é feito na ferramenta com a opção \mintinline{bash}{--permuta} ou \mintinline{bash}{-p}.
+
+Nesse método basicamente é feita uma permutação da matriz booleana de indexação, inserindo os dados em posições mais distribuídas \red{pela} imagem. Para evitar o surgimento de algum padrão de bits, os dados da imagem também são permutados antes da inserção.
+
+De forma a tornar o método reversível, mas imprevisível, em cada execução é gerada uma chave aleatória. Essa chave é usada como semente para o gerador pseudo-aleatório, sendo depois inserida nos últimos 64 bits do plano especificado na imagem. Todo esse método de permutação funciona apenas com a versão 1.17 ou superior de Numpy.
+
+Com o tamanho fixado nos primeiros 64 bits e a chave nos últimos 64 bits, os dados dispersos na imagem podem ser facilmente recuperados, revertendo o processo anterior. Para indicar se houve a permutação na esteganografia ou não, a ferramenta usa o primeiro bit do plano de bits, efetivamente reduzindo o tamanho representável para 63 bits. Assim, a ferramenta de decodificação consegue recuperar os dois métodos, sem necessidade de indicação do usuário.
