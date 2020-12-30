@@ -24,7 +24,7 @@ Todas as ferramentas foram desenvolvidas e testadas para Python 3.6 ou superior.
 
             \item[inout.py] Tratamento de entrada e saída do programa.
 
-            \item[tipos.py] Tipos para checagem estática com MyPy.
+            \item[tipos.py] Tipos para checagem estática.
         \end{description}
     \end{description}
 
@@ -34,13 +34,13 @@ Todas as ferramentas foram desenvolvidas e testadas para Python 3.6 ou superior.
 
 \subsection{Execução}
 
-    A execução de ambos os programas deverá ser feita através do interpretador de Python 3.6+. Os exemplos de execuções a seguir funcionam apenas em Python 3.7+, mas o \textit{script} \texttt{run.sh} também funciona em 3.6.
+    A execução de ambos os programas deverá ser feita através do interpretador de Python 3.6+. Os exemplos de execuções a seguir funcionam apenas em Python 3.7+, mas o \textit{script} \texttt{run.sh} também funciona na versão 3.6.
 
     Todas as opções a seguir também estão explicadas com o texto de ajuda de cada ferramenta. Ele pode ser acessado com a \textit{flag} \mintinline{bash}{--help} ou apenas \mintinline{bash}{-h}.
 
     \subsubsection{Codificação}
 
-    A primeira tem um argumento obrigatório: a imagem, preferencialmente PNG, onde os dados serão ocultados. Um segundo argumento pode ser passado, especificando o arquivo a ser armazenado. Caso ele não apareça, o arquivo é lido da entrada padrão.
+    A primeira ferramenta tem apenas um argumento obrigatório: o caminho da imagem, preferencialmente PNG, onde os dados serão ocultados. Um segundo argumento pode ser passado, especificando o arquivo a ser velado. Caso ele não apareça, o arquivo é lido da entrada padrão.
 
     Por padrão, a imagem resultante é apresentada em uma nova janela gráfica. No entanto, a imagem pode ser salva com a opção \mintinline{bash}{--output} ou \mintinline{bash}{-o} e o arquivo de salvamento. A seguir temos a exemplo de como guardar o texto ``MC920'' na imagem \texttt{baboon.png} com o resultado salvo em \texttt{saida.png}.
 
@@ -54,13 +54,13 @@ Todas as ferramentas foram desenvolvidas e testadas para Python 3.6 ou superior.
         $ python3 codificar.py imagens/watch.png imagens/monalisa.png -b 2
     \end{minted}
 
-    Existe ainda uma opção sobre a ordem de escrita na imagem, \mintinline{bash}{-p} ou \mintinline{bash}{--permuta}, que será melhor apresentada na seção \red{QUAL\qm}.
+    Existe ainda uma opção sobre a ordem de escrita na imagem, \mintinline{bash}{-p} ou \mintinline{bash}{--permuta}, que será melhor apresentada na \cref{sec:permutacao}.
 
     \subsubsection{Decodificação}
 
-    A ferramenta de decodificação é mais simples, recebendo apenas a imagem já esteganografada. Após a decodificação, o arquivo resultante é escrito na saída padrão. Um segundo argumento pode ser especificado para armazenar o resultado em um arquivo.
+    A ferramenta de decodificação é mais simples, recebendo apenas a imagem já esteganografada. Após a decodificação, o arquivo resultante é escrito na saída padrão. Um segundo argumento pode ser especificado para armazenar o resultado.
 
-    Note que, para funcionamento correto da ferramenta, é necessário que a decodificação seja feita no mesmo plano de bit em que o arquivo doi embutido. Para isso, existe a \textit{flag} \mintinline{bash}{--bit} ou \mintinline{bash}{-b}, assim como na codificação. Por exemplo:
+    Note que, para funcionamento correto da ferramenta, é necessário que a decodificação seja feita no mesmo plano de bit em que o arquivo foi embutido. Para isso, existe a \textit{flag} \mintinline{bash}{--bit} ou \mintinline{bash}{-b}, assim como na codificação. Por exemplo:
 
     \begin{minted}{bash}
         $ echo MC920 | python3 codificar.py imagens/peppers.png -o saida.png -b 1
