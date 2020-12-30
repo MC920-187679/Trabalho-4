@@ -51,19 +51,35 @@
         Files - and /proc/self/fd/12 are identical
     \end{minted}
 
+\subsection{Arquivos Binários}
+
+    \input{imagens/binzip}
+    \input{imagens/binmona}
+
+    Para arquivos não-textuais, como arquivos \textit{zip} ou PNG, os padrões gerados na imagens são menos reconhecíveis que as linhas verticais geradas pelos caracteres advindos do padrão ASCII.
+
+    Ainda assim, podemos ver um risco horizontal na \cref{fig:binzip} onde o arquivo se encerra, mesmo com um ruído forte no plano 0 da imagem original. Podemos ver também onde a \texttt{monalisa.png} se encerra na \cref{fig:binmona}, mas isso principalmente porque a \texttt{watch.png} tem baixo ruído no plano menos significativo.
+
+    \begin{minted}{bash}
+        # ocultação do código fonte comprimido
+        $ zip -9q codigo.zip lib/*.py *.py textos/enunciado.md
+        $ python3 codificar.py imagens/baboon.png codigo.zip
+
+        # ocultação da monalisa
+        $ python3 codificar.py imagens/watch.png monalisa.png
+    \end{minted}
+
 %% TODO %%
 %
 % Geral
 % x Assinatura [mon]
 % x Texto Pequeno [mon][wat]
 % x Texto Grande [bab|pep]
-% - Binario (Imagem / Zip) [bab|pep]
+% x Binario (Imagem / Zip) [bab|pep]
 %
 % Permutado
 % - Texto Pequeno [mon] -- Tamanho + Chave
 % - Texto Grande [bab|pep]
-% - ?: Binário
 %
 % Plano de bit
 % - 0, 1, 2
-% - ?: 3, 5, 7
