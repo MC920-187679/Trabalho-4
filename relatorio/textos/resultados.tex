@@ -2,7 +2,7 @@
 
 \subsection{Assinatura}
 
-    Podemos ver pela \cref{fig:assinatura} que assinatura digitais, normalmente com menos de caracteres, são imperceptíveis na imagem como um todo. No plano de bit específico, a diferença também não é visível ao olho humano.
+    Podemos ver pela \cref{fig:assinatura} que assinatura digitais, normalmente com menos de caracteres, são imperceptíveis na imagem como um todo. No plano de bit específico, a diferença também não é visível ao olho humano. A medida RMSE \autocite{ref:rmse} entre o resultado e a original é 0.03, com um UIQ \autocite{ref:uiq} muito próximo de 1.
 
     O resultado na \cref{fig:assinatura:imagem} contém o texto ``Realizzato da Leonardo da Vinci™'', representado em UTF-8 por 35 bytes. Juntamente com o cabeçalho de 8 bytes, a assinatura ocupa 344 bits do plano menos significativo. Isso não chega a metade da primeira linha ($256 \times 3$ bits de capacidade).
 
@@ -17,9 +17,6 @@
     \begin{minted}{bash}
         $ python3 decodificar.py saida.png
         Realizzato da Leonardo da Vinci™
-        $ # OU
-        $ python3 decodificar.py saida.png | diff -qs - <(echo Realizzato da Leonardo da Vinci™)
-        Files - and /proc/self/fd/12 are identical
     \end{minted}
 
     \input{imagens/assinatura}
@@ -27,6 +24,17 @@
 \subsection{Texto Pequeno}
 
     \input{imagens/pequeno}
+
+    Nesse caso, temos a \cref{fig:pequeno:imagem} esteganografada com um texto curto, de aproximadamente 600 palavras. O texto, \texttt{enunciado.md}, é basicamente uma transcrição do enunciado do projeto para Markdown, composto de 4.5 KiB de dados.
+
+    Podemos que a presença do conteúdo começa a se tornar perceptível, no plano de bit menos significativo. Na imagem como um todo, no entanto, ainda não é diferenciável. Os índices confirmar isso com um RMSE de 0.15 e UIQ também muito próximo a 1.
+
+    \begin{minted}{bash}
+        $ python3 codificar.py imagens/peppers.png textos/enunciado.md -o saida.png
+        # verificação
+        $ python3 decodificar.py saida.png | diff -qs - textos/enunciado.md
+        Files - and textos/enunciado.md are identical
+    \end{minted}
 
 %% TODO %%
 %
