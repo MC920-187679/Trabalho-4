@@ -40,10 +40,14 @@
 
     \input{imagens/grande}
 
+    Novamente, mais uma imagem indistiguível da original, apesar de ter um RMSE de 0.7 e UIQ 0.9998. O plano 0 aqui, por estar quase todo preenchido, é um pouco menos suspeito para um observador desacustumado. No entanto, pelo padrões de linhas, ele ainda seria facilmente detectável.
+
+    O texto nesse caso é composto das 28700 primeiras palavras do \texttt{words.txt}.
+
     \begin{minted}{bash}
-        $ head -n 27000 textos/words.txt | python3 codificar.py imagens/watch.png -o saida.png
+        $ head -n 28700 textos/words.txt | python3 codificar.py imagens/watch.png -o saida.png
         # verificação
-        $ python3 decodificar.py saida.png | diff -qs - <(head -n 27000 textos/words.txt)
+        $ python3 decodificar.py saida.png | diff -qs - <(head -n 28700 textos/words.txt)
         Files - and /proc/self/fd/12 are identical
     \end{minted}
 
