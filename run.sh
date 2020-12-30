@@ -59,8 +59,11 @@
 
 # planos diferenciados
 mkdir -p resultados/bits
-python3 codificar.py -o resultados/bits/mona.png -b 3 imagens/monalisa.png textos/enunciado.md
-head -n 5000 textos/words.txt | python3 codificar.py -o resultados/bits/pep.png -b 3 imagens/peppers.png
+for i in 0 1 2 3 4 5 6 7; do
+    python3 codificar.py -o resultados/bits/mona$i.png -b $i imagens/monalisa.png textos/enunciado.md
+
+    head -n 5000 textos/words.txt | python3 codificar.py -o resultados/bits/pep$i.png -b $i imagens/peppers.png
+done
 
 # verficação
 python3 decodificar.py resultados/mona_assin/imagem.png | diff -q - <(echo Realizzato da Leonardo da Vinci™)
@@ -70,5 +73,7 @@ python3 decodificar.py resultados/bab_zip/imagem.png | diff -qb - resultados/bab
 python3 decodificar.py resultados/watch_mona/imagem.png | diff -qb - imagens/monalisa.png
 python3 decodificar.py resultados/pep_perm/imagem.png | diff -q - textos/enunciado.md
 python3 decodificar.py resultados/watch_perm/imagem.png | diff -qb - imagens/monalisa.png
-python3 decodificar.py -b 3 resultados/bits/mona.png | diff -q - textos/enunciado.md
-python3 decodificar.py -b 3 resultados/bits/pep.png | diff -q - <(head -n 5000 textos/words.txt)
+for i in 0 1 2 3 4 5 6 7; do
+    python3 decodificar.py -b $i resultados/bits/mona$i.png | diff -q - textos/enunciado.md
+    python3 decodificar.py -b $i resultados/bits/pep$i.png | diff -q - <(head -n 5000 textos/words.txt)
+done
