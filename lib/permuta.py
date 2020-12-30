@@ -1,23 +1,27 @@
 """
 Permutação dos dados do arquivo.
 """
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Any
 import numpy as np
 from .tipos import Bits, Indices
 from .bits import separa_int, junta_int, cat
 
 try:
+    # o método de permutar posições
     # funciona apenas para Numpy 1.17+
     from numpy.random import Generator
-except ImportError:
-    Generator = 'np.random.Generator'
 
+    def rng(chave: Optional[int]=None) -> Generator:
+        """
+        Random Number Generator do Numpy.
+        """
+        return np.random.default_rng(chave)
 
-def rng(chave: Optional[int]=None) -> Generator:
-    """
-    Random Number Generator do Numpy.
-    """
-    return np.random.default_rng(chave)
+except ImportError as error:
+    # problema nas versõe antigas
+    def rng(*_args, err=error) -> Any: # pylint: disable=C0116
+        msg = "Numpy v1.17+ necessário para permutação"
+        raise ValueError(msg) from err
 
 
 # # # # # # # #
