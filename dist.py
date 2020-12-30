@@ -5,11 +5,12 @@ import numpy as np
 from lib.args import Argumentos
 
 
-def EMAX(f, g):
-    return np.max(np.abs(f - g))
-
-def MAE(f, g):
-    return np.mean(np.abs(f - g))
+def UIQ(f, g):
+    cm = np.cov(f.flat, g.flat)
+    cov, (sf, sg) = cm[0,1], np.sqrt(np.diag(cm))
+    uf, ug = np.mean(f), np.mean(g)
+    Q = (4 * cov * uf * ug) / ((sf*sf + sg*sg) * (uf*uf + ug*ug))
+    return Q
 
 def MSE(f, g):
     return np.mean(np.square(f - g))
@@ -17,17 +18,11 @@ def MSE(f, g):
 def RMSE(f, g):
     return np.sqrt(MSE(f, g))
 
-def NMSE(f, g):
-    return MSE(f, g) / MSE(f, 0)
-
 def PSNR(f, g, Lmax=255):
     return 20 * np.log10(Lmax / RMSE(f, g))
 
 def SNR(f, g):
     return 20 * np.log10(MSE(f, 0) / MSE(f, g))
-
-def cov(f, g):
-    return np.cov(f.flat, g.flat)[0,1]
 
 def corr(f, g):
     cov = np.cov(f.flat, g.flat)
@@ -39,9 +34,8 @@ def jaccard(f, g):
 
 # todos as medidas acima
 METODOS = {
-    'EMAX': EMAX, 'MAE': MAE, 'RMSE': RMSE,
-    'PSNR': PSNR, 'SNR': SNR, 'COV': cov,
-    'COR': corr, 'JACC': jaccard
+    'RMSE': RMSE, 'PSNR': PSNR, 'SNR': SNR,
+    'COR': corr, 'JACC': jaccard, 'UIQ': UIQ
 }
 
 # parser dos argumentos da linha de comando
