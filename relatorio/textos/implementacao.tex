@@ -8,7 +8,7 @@ No código, isso foi feito de forma vetorizada, utilizando uma matriz booleana p
 
 Para a decodificação o processo é ainda mais simples. Basta extrair o plano de bit correto em um vetor de bits, recupera o tamanho do arquivo nos primeiros 64 bits e usa isso para recuperar o vetor de bits que realmente fazem parte do arquivo. O resultado é uma mera aglutinação desses bits em caracteres ou bytes.
 
-\subsection{Permutação} % TODO: esse nome?
+\subsection{Permutação}
 
 O modelo anterior insere os bits sempre do começo pro final da imagem, o que pode gerar marcas bem claras na imagem \red{(resultados\qm)}. Uma maneira de evitar isso é distribuindo os dados do arquivo por toda a imagem, como é feito na ferramenta com a opção \mintinline{bash}{--permuta} ou \mintinline{bash}{-p}.
 
