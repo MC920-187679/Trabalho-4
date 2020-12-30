@@ -85,5 +85,12 @@
 
 \section{Outros Planos de Bit}
 
+    A influência do plano de bit para a esteganografia é muito importante. Normalmente, em imagens mais naturais, como fotos, os 3 planos menos significativos (0, 1 e 2) causam um impacto quase imperceptível ao olho humano. Isso é pouco aparente na \cref{fig:monalisa:3}, mas fica bem claro na \cref{fig:monalisa:4}.
+
     \input{imagens/monalisa}
+
+    Em figuras mais geométricas e menor variação de iluminação, por exemplo, os efeitos podem ser mais aparentes. Isso acontece na \cref{fig:peppers}, em que o plano 3 já começa a indicar algum artefato suspeito na imagem.
+
+    As medidas de similaridade, como esperado, pioram quanto maior for o plano de ocultação. No entanto, a medida RMSE apresentou padrão exponencial, dobrando a cada incremento no número do plano. Por exemplo, a \cref{fig:monalisa:0} teve um RMSE de 0.306, a \cref{fig:monalisa:1} foi 0.611, até a \cref{fig:monalisa:4} com $4.93 \approx 0.306 \cdot 2^4$. O padrão também apareceu nos planos mais significativos e na \texttt{peppers.png}.
+
     \input{imagens/peppers}
