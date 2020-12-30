@@ -16,7 +16,7 @@ python3 plano.py -o resultados/pep_peq/pl0chb.png -c b resultados/pep_peq/imagem
 python3 plano.py -o resultados/pep_peq/pl0chg.png -c g resultados/pep_peq/imagem.png
 python3 plano.py -o resultados/pep_peq/pl0chr.png -c r resultados/pep_peq/imagem.png
 
-watch com texto longo
+# watch com texto longo
 mkdir -p resultados/watch_gran
 head -n 28700 textos/words.txt | python3 codificar.py -o resultados/watch_gran/imagem.png imagens/watch.png
 python3 plano.py -o resultados/watch_gran/plano0.png  resultados/watch_gran/imagem.png
