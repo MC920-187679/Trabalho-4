@@ -36,12 +36,23 @@
         Files - and textos/enunciado.md are identical
     \end{minted}
 
+\subsection{Texto Grande}
+
+    \input{imagens/grande}
+
+    \begin{minted}{bash}
+        $ head -n 27000 textos/words.txt | python3 codificar.py imagens/watch.png -o saida.png
+        # verificação
+        $ python3 decodificar.py saida.png | diff -qs - <(head -n 27000 textos/words.txt)
+        Files - and /proc/self/fd/12 are identical
+    \end{minted}
+
 %% TODO %%
 %
 % Geral
 % x Assinatura [mon]
 % x Texto Pequeno [mon][wat]
-% - Texto Grande [bab|pep]
+% x Texto Grande [bab|pep]
 % - Binario (Imagem / Zip) [bab|pep]
 %
 % Permutado

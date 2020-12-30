@@ -27,4 +27,4 @@ python3 plano.py -o resultados/watch_gran/pl0chr.png -c r resultados/watch_gran/
 # verficação
 python3 decodificar.py resultados/mona_assin/imagem.png | diff -q - <(echo Realizzato da Leonardo da Vinci™)
 python3 decodificar.py resultados/pep_peq/imagem.png | diff -q - textos/enunciado.md
-python3 decodificar.py resultados/watch_gran/imagem.png | diff -q - textos/words.txt
+python3 decodificar.py resultados/watch_gran/imagem.png | diff -q - <(head -n 27000 textos/words.txt)
