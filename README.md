@@ -1,4 +1,6 @@
-# Trabalho 4
+# Trabalho 4 - [Enunciado](papers/enunciado.pdf)
+
+## [Entrega](papers/entrega.pdf)
 
 ## Especificação do Problema
 
